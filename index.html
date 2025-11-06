@@ -513,309 +513,36 @@
             </div>
         </div>
 
-        <!-- PAGE 1: DISPOSITIFS D'ACCOMPAGNEMENT (intégration du bloc unique CEJ/PACEA/CEP/Posture/Alliance/APS) -->
-<div id="page-dispositifs" class="detail-page page-dispositifs">
-  <button class="btn btn-back" onclick="showPage('home')">⬅ Retour au menu principal</button>
+        <!DOCTYPE html> 
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Répertoire Mission Locale Pays Basque 2025</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Mulish:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --orange: #f39200; --blue: #2897d5; --green: #95c11f; --pink: #d60b52;
+            --violet: #a3195b; --yellow: #f7b500; --grey: #666666; --light-grey: #f4f4f4;
+            --light-blue: #57b9e9; --dark-orange: #f28e00;
+        }
+        body { font-family: 'Mulish', sans-serif; line-height: 1.6; color: #333;
+               background: linear-gradient(135deg, #f4f4f4 0%, #e8e8e8 100%); min-height: 100vh; }
+        .container { max-width: 1400px; margin: 0 auto; padding: 20px; }
 
-  <div class="detail-header">
-    <h1>⚙️ Dispositifs d'accompagnement</h1>
-    <div class="objective">
-      <strong>🎯 Objectif général :</strong> Garantir la cohérence et la fluidité des accompagnements du jeune à travers les dispositifs CEP, PACEA et CEJ.
-      <p style="margin-top: 15px; font-style: normal;">
-        À compter du 1er janvier 2025, le CEP constitue le cadre de référence de l'accompagnement à l'évolution professionnelle au sein des Missions Locales. Il s'inscrit dans la continuité du CEP national et du PACEA, tout en intégrant la logique d'amélioration continue, d'ancrage territorial et de traçabilité qualitative.
-      </p>
-    </div>
-  </div>
+        /* Page d'accueil */
+        .home-page { display: block; animation: fadeIn 0.5s ease-in; }
+        .header { text-align: center; padding: 60px 20px 40px;
+                  background: linear-gradient(135deg, var(--blue) 0%, var(--violet) 100%);
+                  color: white; border-radius: 20px; margin-bottom: 40px;
+                  box-shadow: 0 10px 40px rgba(0,0,0,0.15); }
+        .header h1 { font-size: 3em; font-weight: 800; margin-bottom: 20px;
+                     text-shadow: 2px 2px 4px rgba(0,0,0,0.2); }
+        .header p { font-size: 1.3em; font-weight: 300; max-width: 900px; margin: 0 auto; line-h
 
-  <!-- ===== DISPOSITIFS D'ACCOMPAGNEMENT – SOMMAIRE LOCAL ===== -->
-  <div class="content-section" id="sommaire-dispositifs">
-    <h2>🧭 Sommaire – Dispositifs et cadres d'accompagnement</h2>
-    <div class="sub-cards">
-      <a class="sub-card" href="#fiche-cej"><h4>🚀 CEJ – Contrat d’Engagement Jeune</h4><p>Accompagnement intensif 15–20h/sem. + allocation</p></a>
-      <a class="sub-card" href="#fiche-pacea"><h4>📄 PACEA – Parcours Contractualisé</h4><p>Cadre contractuel unique, durée modulable</p></a>
-      <a class="sub-card" href="#fiche-cep"><h4>🧩 CEP – Conseil en Évolution Professionnelle</h4><p>Socle de l’accompagnement MLPB (N1/N2)</p></a>
-      <a class="sub-card" href="#fiche-posture"><h4>🎧 Posture professionnelle en entretien</h4><p>Écoute active, cadre clair, co-construction</p></a>
-      <a class="sub-card" href="#fiche-alliance"><h4>🤝 Alliance de travail</h4><p>Objectifs partagés, tâches, lien de coopération</p></a>
-      <a class="sub-card" href="#fiche-aps"><h4>🧭 APS – Analyse Partagée de Situation</h4><p>Croiser les regards, prioriser, coordonner</p></a>
-    </div>
-  </div>
-
-  <!-- ===== FICHE CEJ ===== -->
-  <div class="content-section" id="fiche-cej">
-    <h2>🚀 CEJ – Contrat d’Engagement Jeune</h2>
-    <div class="highlight-box">
-      <strong>Principe :</strong> Accompagnement global renforcé avec <strong>15 à 20 h d’activités / semaine</strong> et <strong>au moins 1 entretien individuel / mois</strong>. À compter du <strong>01/01/2025</strong>, <strong>inscription France Travail obligatoire</strong> pour l’entrée en CEJ. <br>
-      <em>Allocation mensuelle mobilisable dès 16 ans, selon critères internes MLPB (cf. intranet CEJ).</em>
-    </div>
-
-    <h3>JEUNE</h3>
-    <div class="schema">
-      <div class="schema-flow">
-        <div class="schema-step">1er accueil</div>
-        <div class="schema-step">↓</div>
-        <div class="schema-step">Accueil – Information – Orientation<br><small>CEP niveau 1 (Accueil individualisé adapté)</small></div>
-      </div>
-    </div>
-
-    <h3>Diagnostic partagé obligatoire</h3>
-    <ul>
-      <li>1 – Cliquer sur RPE dans IMILO</li>
-      <li>2 – Inscription France Travail</li>
-      <li>3 – Questionnaire d’Orientation</li>
-      <li>4 – Décision d’Orientation</li>
-      <li>5 – Diagnostic partagé</li>
-    </ul>
-
-    <h3>Éligibilité à l’accompagnement</h3>
-    <ul>
-      <li>Pas d’emploi à l’entrée (tolérance possible pour emploi très précaire si dispo 15–20 h/sem.)</li>
-      <li>Pas de formation en cours (CNED, FOAD, scolaire, PRF…)</li>
-    </ul>
-
-    <h3>Éligibilité à l’allocation</h3>
-    <ul>
-      <li>Allocation attribuable à tout jeune signataire CEJ, <em>sous condition de ressources</em> (cf. fiche pratique intranet CEJ)</li>
-      <li>Montant plafonné suivant vos barèmes internes (référence méthode MLPB)</li>
-    </ul>
-
-    <h3>Durée et organisation</h3>
-    <ul>
-      <li>Durée de référence : <strong>12 mois</strong></li>
-      <li>Prolongation possible jusqu’à <strong>18 mois</strong> (commission + argumentaire)</li>
-      <li>Rythme : 15–20 h d’activités/sem. + suivi renforcé</li>
-      <li><strong>Exception RQTH :</strong> pas d’obligation 15–20 h ; accompagnement possible jusqu’à 29 ans</li>
-    </ul>
-
-    <h3>Engagements mutuels</h3>
-    <ul>
-      <li>Annexe 2 “Droits et Devoirs” – Lecture partagée et signature jeune/conseiller</li>
-      <li>Déclaration des démarches du jeune sur l’<strong>Appli CEJ</strong></li>
-    </ul>
-
-    <h3>Sorties CEJ</h3>
-    <ul>
-      <li><strong>Sorties du droit commun</strong> (cf. fiche pratique intranet “Définition et motifs de sortie du CEJ”)</li>
-      <li><strong>Rupture pour sanction</strong> (ex. fausse déclaration)</li>
-    </ul>
-  </div>
-
-  <!-- ===== FICHE PACEA ===== -->
-  <div class="content-section" id="fiche-pacea">
-    <h2>📄 PACEA – Parcours Contractualisé d’Accompagnement</h2>
-    <div class="highlight-box">
-      <strong>Principe :</strong> Cadre contractuel unique Mission Locale, <strong>accompagnement global</strong> à rythme adapté. À compter du <strong>01/01/2025</strong>, <strong>inscription France Travail obligatoire</strong> pour l’entrée en PACEA. <br>
-      <em>Aides ponctuelles mobilisables selon enveloppe MLPB et besoins objectivés.</em>
-    </div>
-
-    <h3>JEUNE</h3>
-    <div class="schema">
-      <div class="schema-flow">
-        <div class="schema-step">1er accueil</div>
-        <div class="schema-step">↓</div>
-        <div class="schema-step">Accueil – Information – Orientation<br><small>CEP niveau 1 (Accueil individualisé adapté)</small></div>
-      </div>
-    </div>
-
-    <h3>Réponse ponctuelle</h3>
-    <ul>
-      <li>Identifier la demande, la situation, les compétences acquises et les attentes avant l’entrée éventuelle en PACEA</li>
-    </ul>
-
-    <h3>Orientation vers partenaire (si besoin)</h3>
-    <ul>
-      <li>Sécuriser l’orientation externe et limiter les ruptures avant engagement</li>
-    </ul>
-
-    <h3>Diagnostic partagé obligatoire</h3>
-    <ul>
-      <li>1 – Cliquer sur RPE dans IMILO</li>
-      <li>2 – Inscription France Travail</li>
-      <li>3 – Questionnaire d’Orientation</li>
-      <li>4 – Décision d’Orientation</li>
-      <li>5 – Diagnostic partagé</li>
-    </ul>
-
-    <h3>Durée et organisation</h3>
-    <ul>
-      <li><strong>Durée maximale : 24 mois</strong> (séquences de durée/intensité variables)</li>
-      <li>Chaque phase comporte des objectifs co-définis et une évaluation à son terme</li>
-    </ul>
-
-    <h3>Sorties PACEA</h3>
-    <ul>
-      <li><strong>Sorties prématurées</strong> : abandon, limite d’âge (26 ans), décès, accès à l’autonomie, non-respect des engagements, déménagement, ré-orientation</li>
-      <li><strong>Sortie au terme</strong> : fin des 24 mois. Possibilité d’<strong>un nouveau PACEA</strong> (24 mois)</li>
-    </ul>
-  </div>
-
-  <!-- ===== FICHE CEP ===== -->
-  <div class="content-section" id="fiche-cep">
-    <h2>🧩 CEP – Conseil en Évolution Professionnelle</h2>
-    <div class="highlight-box">
-      <strong>Mission :</strong> Socle de l’accompagnement MLPB. Accueil-information (Niveau 1) et accompagnement personnalisé (Niveau 2) pour construire, valider et mettre en œuvre un projet d’évolution professionnelle <em>co-construit</em>.
-    </div>
-
-    <h3>JEUNE</h3>
-    <div class="schema">
-      <div class="schema-flow">
-        <div class="schema-step">1er accueil</div>
-        <div class="schema-step">↓</div>
-        <div class="schema-step">CEP N1 – Accueil / Information / Orientation</div>
-        <div class="schema-step">↓</div>
-        <div class="schema-step">CEP N2 – Accompagnement personnalisé</div>
-      </div>
-    </div>
-
-    <h3>Diagnostic partagé (CEP N2)</h3>
-    <ul>
-      <li>Évaluation globale (projet, freins/ressources, mobilité, santé, numérique, vie sociale)</li>
-      <li>Formalisation sur IMILO (RPE) et plan d’actions individualisé</li>
-    </ul>
-
-    <h3>Éléments de cadrage</h3>
-    <ul>
-      <li>Neutralité, confidentialité, respect du rythme</li>
-      <li>Objectifs concrets et mesurables, <em>revus régulièrement</em></li>
-      <li>Traçabilité et droit au retour (ré-ouverture possible en cas de besoin)</li>
-    </ul>
-
-    <h3>Sorties / transitions</h3>
-    <ul>
-      <li>Vers PACEA ou CEJ selon situation</li>
-      <li>Vers partenaires (santé, social, formation, emploi) avec sécurisation des relais</li>
-    </ul>
-  </div>
-
-  <!-- ===== FICHE POSTURE PROFESSIONNELLE ===== -->
-  <div class="content-section" id="fiche-posture">
-    <h2>🎧 Posture professionnelle en situation d’entretien</h2>
-    <div class="highlight-box">
-      <strong>Principes :</strong> Écoute active, non-jugement, cadre explicite, co-construction. L’objectif est de favoriser l’autonomie et la capacité d’agir du jeune.
-    </div>
-
-    <h3>JEUNE</h3>
-    <div class="schema">
-      <div class="schema-flow">
-        <div class="schema-step">Accueil & cadrage</div>
-        <div class="schema-step">↓</div>
-        <div class="schema-step">Clarification de la demande</div>
-        <div class="schema-step">↓</div>
-        <div class="schema-step">Co-définition objectifs</div>
-        <div class="schema-step">↓</div>
-        <div class="schema-step">Plan d’actions & suivi</div>
-      </div>
-    </div>
-
-    <h3>Compétences clés</h3>
-    <ul>
-      <li>Questionnement ouvert, reformulation, synthèse</li>
-      <li>Cadre clair (rôles, durée, règles, données)</li>
-      <li>Feedbacks factuels, encouragements ciblés</li>
-      <li>Ajustement des exigences et repères</li>
-    </ul>
-
-    <h3>Points de vigilance</h3>
-    <ul>
-      <li>Ne pas décider à la place, ni sur-responsabiliser</li>
-      <li>Éviter la complaisance ou la moralisation</li>
-      <li>Gérer le temps pour préserver la qualité de la relation</li>
-    </ul>
-  </div>
-
-  <!-- ===== FICHE ALLIANCE DE TRAVAIL ===== -->
-  <div class="content-section" id="fiche-alliance">
-    <h2>🤝 Alliance de travail</h2>
-    <div class="highlight-box">
-      <strong>Définition opérationnelle MLPB :</strong> Accord <em>clair et partagé</em> sur les objectifs, les tâches de chacun et le lien de coopération, afin de sécuriser la progression.
-    </div>
-
-    <h3>JEUNE</h3>
-    <div class="schema">
-      <div class="schema-flow">
-        <div class="schema-step">Explicitation des objectifs</div>
-        <div class="schema-step">↓</div>
-        <div class="schema-step">Répartition des tâches</div>
-        <div class="schema-step">↓</div>
-        <div class="schema-step">Rythme / canaux de suivi</div>
-        <div class="schema-step">↓</div>
-        <div class="schema-step">Bilans & ajustements</div>
-      </div>
-    </div>
-
-    <h3>Éléments concrets</h3>
-    <ul>
-      <li>Objectifs co-rédigés, datés, mesurables</li>
-      <li>Tâches “Jeune / Conseiller” explicites + délais</li>
-      <li>Points réguliers planifiés (mensuels a minima)</li>
-      <li>Adaptations formalisées après chaque bilan</li>
-    </ul>
-  </div>
-
-  <!-- ===== FICHE APS ===== -->
-  <div class="content-section" id="fiche-aps">
-    <h2>🧭 APS – Analyse Partagée de Situation</h2>
-    <div class="highlight-box">
-      <strong>Objectif :</strong> Croiser les regards pour prioriser les besoins, coordonner les interventions et prévenir les ruptures de parcours.
-    </div>
-
-    <h3>JEUNE</h3>
-    <div class="schema">
-      <div class="schema-flow">
-        <div class="schema-step">Motif de l’APS</div>
-        <div class="schema-step">↓</div>
-        <div class="schema-step">Faits & éléments objectifs</div>
-        <div class="schema-step">↓</div>
-        <div class="schema-step">Ressources / freins / acteurs</div>
-        <div class="schema-step">↓</div>
-        <div class="schema-step">Objectifs & priorités</div>
-        <div class="schema-step">↓</div>
-        <div class="schema-step">Plan d’actions coordonné</div>
-      </div>
-    </div>
-
-    <h3>Organisation</h3>
-    <ul>
-      <li>Participants ciblés (interne/partenaires) selon le motif</li>
-      <li>Animé par un référent qui garantit le cadre et la synthèse</li>
-      <li>Compte-rendu court, décisions + responsabilités + échéances</li>
-    </ul>
-
-    <h3>Sorties / suites</h3>
-    <ul>
-      <li>Plan d’actions partagé et traçabilité dans IMILO</li>
-      <li>Suivi calendré avec points d’étape</li>
-      <li>Révision de l’APS si événement majeur</li>
-    </ul>
-  </div>
-
-  <!-- ===== PARCOURS INTÉGRÉ & OUTILS (optionnels, garde la cohérence de la page) ===== -->
-  <div class="content-section">
-    <h2>🪜 Parcours intégré : CEP + PACEA + CEJ</h2>
-    <div class="schema">
-      <div class="schema-flow">
-        <div class="schema-step">Accueil CEP N1</div>
-        <div class="schema-step">Diagnostic CEP N2</div>
-        <div class="schema-step">Contractualisation PACEA ou CEJ</div>
-        <div class="schema-step">Plan d'action</div>
-        <div class="schema-step">Suivi régulier</div>
-        <div class="schema-step">Bilan</div>
-        <div class="schema-step">Droit au retour</div>
-      </div>
-    </div>
-    <p style="text-align: center; margin-top: 20px; font-weight: 600;">
-      Le CEP est le socle unifié de l'accompagnement global, au croisement du PACEA, du CEJ et de la stratégie territoriale d'insertion durable.
-    </p>
-  </div>
-
-  <div class="buttons-group">
-    <button class="btn btn-download">📥 Télécharger fiche CEP complète</button>
-    <button class="btn btn-download">📥 Télécharger fiche PACEA</button>
-    <button class="btn btn-download">📥 Télécharger fiche CEJ</button>
-    <button class="btn btn-download">📥 Formulaire CEP – Accueil</button>
-    <button class="btn btn-download">📥 Diagnostic partagé CEP (IMILO)</button>
-    <button class="btn btn-download">📥 Tableau de bord CEP – PAVAMI</button>
-  </div>
-</div>
 
         <!-- PAGE 2: SANTÉ & BIEN-ÊTRE -->
         <div id="page-sante" class="detail-page page-sante">

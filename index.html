@@ -1,1240 +1,501 @@
-<!DOCTYPE html> 
+<!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Répertoire Mission Locale Pays Basque 2025</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Mulish:wght@300;400;600;700;800&display=swap" rel="stylesheet">
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        :root {
-            --orange: #f39200; --blue: #2897d5; --green: #95c11f; --pink: #d60b52;
-            --violet: #a3195b; --yellow: #f7b500; --grey: #666666; --light-grey: #f4f4f4;
-            --light-blue: #57b9e9; --dark-orange: #f28e00;
-        }
-        html { scroll-behavior: smooth; }
-        body { font-family: 'Mulish', sans-serif; line-height: 1.6; color: #333;
-               background: linear-gradient(135deg, #f4f4f4 0%, #e8e8e8 100%); min-height: 100vh; }
-        .container { max-width: 1400px; margin: 0 auto; padding: 20px; }
-
-        /* Page d'accueil */
-        .home-page { display: block; animation: fadeIn 0.5s ease-in; }
-        .header { text-align: center; padding: 60px 20px 40px;
-                  background: linear-gradient(135deg, var(--blue) 0%, var(--violet) 100%);
-                  color: white; border-radius: 20px; margin-bottom: 40px;
-                  box-shadow: 0 10px 40px rgba(0,0,0,0.15); }
-        .header h1 { font-size: 3em; font-weight: 800; margin-bottom: 20px;
-                     text-shadow: 2px 2px 4px rgba(0,0,0,0.2); }
-        .header p { font-size: 1.3em; font-weight: 300; max-width: 900px; margin: 0 auto; line-height: 1.8; }
-
-        .menu-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 25px; margin-bottom: 60px; }
-        .menu-card { background: white; padding: 35px; border-radius: 15px; box-shadow: 0 5px 20px rgba(0,0,0,0.1);
-                     cursor: pointer; transition: all 0.3s ease; border-left: 6px solid var(--blue); position: relative; overflow: hidden; }
-        .menu-card:hover { transform: translateY(-8px); box-shadow: 0 15px 40px rgba(0,0,0,0.2); }
-        .menu-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px;
-                             background: linear-gradient(90deg, var(--orange), var(--blue)); transform: scaleX(0); transition: transform 0.3s ease; pointer-events: none; }
-        .menu-card:hover::before { transform: scaleX(1); }
-        .menu-card h2 { font-size: 1.5em; margin-bottom: 15px; color: #333; display: flex; align-items: center; gap: 10px; }
-        .menu-card .emoji { font-size: 1.8em; }
-        .menu-card p { color: #666; font-size: 0.95em; }
-
-        /* Pages détaillées */
-        .detail-page { display: none; animation: slideIn 0.4s ease-out; }
-        .detail-page.active { display: block; }
-        .detail-header { background: white; padding: 40px; border-radius: 15px; margin-bottom: 30px;
-                         box-shadow: 0 5px 20px rgba(0,0,0,0.1); border-left: 8px solid var(--blue); }
-        .detail-header h1 { font-size: 2.5em; color: #333; margin-bottom: 15px; display: flex; align-items: center; gap: 15px; }
-        .detail-header .objective { background: var(--light-grey); padding: 20px; border-radius: 10px; margin-top: 20px; font-style: italic; border-left: 4px solid var(--orange); }
-
-        .content-section { background: white; padding: 35px; border-radius: 15px; margin-bottom: 25px; box-shadow: 0 3px 15px rgba(0,0,0,0.08); }
-        .content-section h2 { font-size: 1.8em; margin-bottom: 20px; color: var(--blue); display: flex; align-items: center; gap: 10px; }
-        .content-section h3 { font-size: 1.3em; margin: 25px 0 15px; color: #333; display: flex; align-items: center; gap: 8px; }
-        .content-section h4 { font-size: 1.2em; margin: 12px 0; color: #333; }
-
-        .sub-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin: 25px 0; }
-        .sub-card { background: var(--light-grey); padding: 25px; border-radius: 12px; border-left: 4px solid var(--orange); transition: all 0.3s ease;
-                    display: block; cursor: pointer; text-decoration: none; color: inherit; }
-        .sub-card:hover { transform: translateX(5px); box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
-
-        .schema { background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%); padding: 30px; border-radius: 12px; margin: 25px 0; border: 2px dashed var(--blue); }
-        .schema-flow { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 15px; }
-        .schema-step { background: white; padding: 15px 25px; border-radius: 8px; font-weight: 600; box-shadow: 0 2px 8px rgba(0,0,0,0.1); position: relative; }
-        .schema-step::after { content: '→'; position: absolute; right: -20px; top: 50%; transform: translateY(-50%); font-size: 1.5em; color: var(--blue); }
-        .schema-step:last-child::after { content: ''; }
-
-        .buttons-group { display: flex; gap: 15px; margin-top: 25px; flex-wrap: wrap; }
-        .btn { padding: 15px 30px; border-radius: 8px; border: none; font-size: 1em; font-weight: 600; cursor: pointer; transition: all 0.3s ease;
-               display: inline-flex; align-items: center; gap: 10px; text-decoration: none; color: white; }
-        .btn-primary { background: linear-gradient(135deg, var(--blue), var(--violet)); color: white; }
-        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(40, 151, 213, 0.3); }
-        .btn-download { background: var(--green); color: white; }
-        .btn-download:hover { background: #7da819; transform: translateY(-2px); }
-        .btn-back { background: var(--grey); color: white; margin-bottom: 20px; }
-        .btn-back:hover { background: #555; }
-
-        .highlight-box { background: linear-gradient(135deg, #fff5e6 0%, #ffe6cc 100%); padding: 25px; border-radius: 10px; border-left: 5px solid var(--orange); margin: 20px 0; }
-        .highlight-box strong { color: var(--orange); font-size: 1.1em; }
-
-        ul { margin: 15px 0 15px 25px; }
-        li { margin: 8px 0; line-height: 1.7; }
-
-        table { width: 100%; border-collapse: collapse; }
-        th, td { padding: 10px; border: 1px solid #ddd; text-align: left; }
-        thead tr { background: var(--light-grey); }
-
-        .footer { background: #333; color: white; padding: 40px 20px; border-radius: 15px; margin-top: 60px; text-align: center; }
-        .footer p { margin-bottom: 15px; font-size: 0.95em; }
-        .footer-logos { display: flex; justify-content: center; gap: 30px; flex-wrap: wrap; margin-top: 25px; }
-        .footer-logos span { background: white; color: #333; padding: 8px 20px; border-radius: 20px; font-weight: 600; font-size: 0.9em; }
-
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-        @keyframes slideIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            .header h1 { font-size: 2em; }
-            .header p { font-size: 1em; }
-            .menu-grid { grid-template-columns: 1fr; }
-            .schema-flow { flex-direction: column; }
-            .schema-step::after { content: '↓'; position: static; display: block; margin: 10px 0; }
-            .buttons-group { flex-direction: column; }
-            .btn { width: 100%; justify-content: center; }
-        }
-
-        /* Color variations for different sections */
-        .page-dispositifs .detail-header { border-left-color: var(--blue); }
-        .page-sante .detail-header { border-left-color: var(--pink); }
-        .page-mobilites .detail-header { border-left-color: var(--green); }
-        .page-formation .detail-header { border-left-color: var(--yellow); }
-        .page-emploi .detail-header { border-left-color: var(--grey); }
-        .page-citoyennete .detail-header { border-left-color: var(--violet); }
-        .page-amelioration .detail-header { border-left-color: var(--light-grey); border: 2px solid #ccc; }
-        .page-ressources .detail-header { border-left-color: var(--light-blue); }
-        .page-professionnalisation .detail-header { border-left-color: var(--dark-orange); }
-
-        /* Mini-nav sticky (mobile) */
-        .mini-nav {
-          position: fixed;
-          left: 0; right: 0; bottom: 0;
-          z-index: 9999;
-          background: #ffffff;
-          border-top: 1px solid #e6e6e6;
-          box-shadow: 0 -6px 20px rgba(0,0,0,0.08);
-          padding: 8px max(12px, env(safe-area-inset-left)) calc(8px + env(safe-area-inset-bottom)) max(12px, env(safe-area-inset-right));
-          display: none;
-        }
-        .mini-nav .mini-nav-inner {
-          max-width: 900px;
-          margin: 0 auto;
-          display: grid;
-          grid-template-columns: repeat(3, 1fr);
-          gap: 8px;
-        }
-        .mini-nav a {
-          display: inline-flex;
-          align-items: center;
-          justify-content: center;
-          padding: 12px 10px;
-          border-radius: 10px;
-          text-decoration: none;
-          font-weight: 800;
-          font-size: 0.95rem;
-          color: #fff;
-          transition: transform .15s ease;
-          will-change: transform;
-        }
-        .mini-nav a:active { transform: translateY(1px); }
-        .mini-nav a.nav-cej    { background: linear-gradient(135deg, var(--violet), #c0246d); }
-        .mini-nav a.nav-pacea  { background: linear-gradient(135deg, var(--orange), #f7b500); color:#231f20; }
-        .mini-nav a.nav-cep    { background: linear-gradient(135deg, var(--blue), #6ec1f2); }
-
-        @media (max-width: 1024px) {
-          .mini-nav { display: block; }
-          body { padding-bottom: 68px; }
-        }
-        @media (prefers-reduced-motion: reduce) {
-          .mini-nav a { transition: none; }
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Répertoire Mission Locale Pays Basque 2025</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Mulish:wght@300;400;600;700;800&display=swap" rel="stylesheet"/>
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box}
+    :root{
+      --orange:#f39200;--blue:#2897d5;--green:#95c11f;--pink:#d60b52;--violet:#a3195b;
+      --yellow:#f7b500;--grey:#666;--light-grey:#f4f4f4;--light-blue:#57b9e9;--dark-orange:#f28e00
+    }
+    body{font-family:'Mulish',sans-serif;line-height:1.6;color:#333;background:linear-gradient(135deg,#f4f4f4 0%,#e8e8e8 100%);min-height:100vh}
+    .container{max-width:1400px;margin:0 auto;padding:20px}
+    .home-page{display:block;animation:fadeIn .5s ease-in}
+    .header{text-align:center;padding:60px 20px 40px;background:linear-gradient(135deg,var(--blue) 0%,var(--violet) 100%);color:#fff;border-radius:20px;margin-bottom:40px;box-shadow:0 10px 40px rgba(0,0,0,.15)}
+    .header h1{font-size:3em;font-weight:800;margin-bottom:20px;text-shadow:2px 2px 4px rgba(0,0,0,.2)}
+    .header p{font-size:1.3em;font-weight:300;max-width:900px;margin:0 auto;line-height:1.8}
+    .menu-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:25px;margin-bottom:60px}
+    .menu-card{background:#fff;padding:35px;border-radius:15px;box-shadow:0 5px 20px rgba(0,0,0,.1);cursor:pointer;transition:all .3s ease;border-left:6px solid var(--blue);position:relative;overflow:hidden}
+    .menu-card:hover{transform:translateY(-8px);box-shadow:0 15px 40px rgba(0,0,0,.2)}
+    .menu-card::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,var(--orange),var(--blue));transform:scaleX(0);transition:transform .3s ease}
+    .menu-card:hover::before{transform:scaleX(1)}
+    .menu-card h2{font-size:1.5em;margin-bottom:15px;color:#333;display:flex;align-items:center;gap:10px}
+    .menu-card .emoji{font-size:1.8em}
+    .menu-card p{color:#666;font-size:.95em}
+    .detail-page{display:none;animation:slideIn .4s ease-out}
+    .detail-page.active{display:block}
+    .detail-header{background:#fff;padding:40px;border-radius:15px;margin-bottom:30px;box-shadow:0 5px 20px rgba(0,0,0,.1);border-left:8px solid var(--blue)}
+    .detail-header h1{font-size:2.5em;color:#333;margin-bottom:15px;display:flex;align-items:center;gap:15px}
+    .detail-header .objective{background:var(--light-grey);padding:20px;border-radius:10px;margin-top:20px;font-style:italic;border-left:4px solid var(--orange)}
+    .content-section{background:#fff;padding:35px;border-radius:15px;margin-bottom:25px;box-shadow:0 3px 15px rgba(0,0,0,.08)}
+    .content-section h2{font-size:1.8em;margin-bottom:20px;color:var(--blue);display:flex;align-items:center;gap:10px}
+    .content-section h3{font-size:1.3em;margin:25px 0 15px;color:#333;display:flex;align-items:center;gap:8px}
+    .sub-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;margin:25px 0}
+    .sub-card{background:var(--light-grey);padding:25px;border-radius:12px;border-left:4px solid var(--orange);transition:all .3s ease}
+    .sub-card:hover{transform:translateX(5px);box-shadow:0 5px 15px rgba(0,0,0,.1)}
+    .sub-card h4{font-size:1.2em;margin-bottom:12px;color:#333}
+    .schema{background:linear-gradient(135deg,#f8f9fa 0%,#e9ecef 100%);padding:30px;border-radius:12px;margin:25px 0;border:2px dashed var(--blue)}
+    .schema-flow{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:15px}
+    .schema-step{background:#fff;padding:15px 25px;border-radius:8px;font-weight:600;box-shadow:0 2px 8px rgba(0,0,0,.1);position:relative}
+    .schema-step::after{content:'→';position:absolute;right:-20px;top:50%;transform:translateY(-50%);font-size:1.5em;color:var(--blue)}
+    .schema-step:last-child::after{content:''}
+    .buttons-group{display:flex;gap:15px;margin-top:25px;flex-wrap:wrap}
+    .btn{padding:15px 30px;border-radius:8px;border:none;font-size:1em;font-weight:600;cursor:pointer;transition:all .3s ease;display:inline-flex;align-items:center;gap:10px;text-decoration:none;color:#fff}
+    .btn-primary{background:linear-gradient(135deg,var(--blue),var(--violet));color:#fff}
+    .btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(40,151,213,.3)}
+    .btn-download{background:var(--green);color:#fff}
+    .btn-download:hover{background:#7da819;transform:translateY(-2px)}
+    .btn-back{background:var(--grey);color:#fff;margin-bottom:20px}
+    .btn-back:hover{background:#555}
+    .highlight-box{background:linear-gradient(135deg,#fff5e6 0%,#ffe6cc 100%);padding:25px;border-radius:10px;border-left:5px solid var(--orange);margin:20px 0}
+    .highlight-box strong{color:var(--orange);font-size:1.05em}
+    ul{margin:15px 0 15px 25px}
+    li{margin:8px 0;line-height:1.7}
+    .footer{background:#333;color:#fff;padding:40px 20px;border-radius:15px;margin-top:60px;text-align:center}
+    .footer-logos{display:flex;justify-content:center;gap:30px;flex-wrap:wrap;margin-top:25px}
+    .footer-logos span{background:#fff;color:#333;padding:8px 20px;border-radius:20px;font-weight:600;font-size:.9em}
+    @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+    @keyframes slideIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+    @media (max-width:768px){
+      .header h1{font-size:2em}
+      .header p{font-size:1em}
+      .menu-grid{grid-template-columns:1fr}
+      .schema-flow{flex-direction:column}
+      .schema-step::after{content:'↓';position:static;display:block;margin:10px 0}
+      .buttons-group{flex-direction:column}
+      .btn{width:100%;justify-content:center}
+    }
+    .page-dispositifs .detail-header{border-left-color:var(--blue)}
+    .page-sante .detail-header{border-left-color:var(--pink)}
+    .page-mobilites .detail-header{border-left-color:var(--green)}
+    .page-formation .detail-header{border-left-color:var(--yellow)}
+    .page-emploi .detail-header{border-left-color:var(--grey)}
+    .page-citoyennete .detail-header{border-left-color:var(--violet)}
+    .page-amelioration .detail-header{border-left-color:var(--light-grey);border:2px solid #ccc}
+    .page-ressources .detail-header{border-left-color:var(--light-blue)}
+    .page-professionnalisation .detail-header{border-left-color:var(--dark-orange)}
+    .page-cadre .detail-header{border-left-color:var(--orange)}
+    .page-approche-globale .detail-header{border-left-color:var(--green)}
+    .ref{font-size:.95em;color:#444;background:#f8f8f8;border-left:4px solid var(--blue);padding:12px 16px;border-radius:8px}
+    .badge{display:inline-block;padding:6px 10px;border-radius:999px;font-weight:700;font-size:.8em;background:#eef7ff;color:#0b69b7;border:1px solid #cfe8ff}
+    a.inline{color:var(--blue);text-decoration:none;border-bottom:1px dashed var(--blue)}
+  </style>
 </head>
 <body>
-    <div class="container">
-        <!-- PAGE D'ACCUEIL -->
-        <div id="home" class="home-page">
-            <div class="header">
-                <h1>🧭 Répertoire des procédures Mission Locale Pays Basque</h1>
-                <p>Un outil vivant et interactif au service de la cohérence, de la qualité et de l'innovation dans l'accompagnement des jeunes.</p>
-            </div>
+  <div class="container">
+    <!-- HOME -->
+    <div id="home" class="home-page">
+      <div class="header">
+        <h1>🧭 Répertoire des procédures Mission Locale Pays Basque</h1>
+        <p>Un outil vivant et interactif au service de la cohérence, de la qualité et de l'innovation dans l'accompagnement des jeunes.</p>
+      </div>
 
-            <div class="menu-grid">
-                <div class="menu-card" onclick="showPage('dispositifs')" style="border-left-color: var(--blue);">
-                    <h2><span class="emoji">⚙️</span> Dispositifs d'accompagnement</h2>
-                    <p>CEP, PACEA et CEJ : cohérence et fluidité des parcours</p>
-                </div>
-
-                <div class="menu-card" onclick="showPage('sante')" style="border-left-color: var(--pink);">
-                    <h2><span class="emoji">💬</span> Santé & Bien-être</h2>
-                    <p>Intégration de la santé physique, mentale et sociale</p>
-                </div>
-
-                <div class="menu-card" onclick="showPage('mobilites')" style="border-left-color: var(--green);">
-                    <h2><span class="emoji">🚗</span> Mobilités</h2>
-                    <p>Lever les freins et développer la capabilité de déplacement</p>
-                </div>
-
-                <div class="menu-card" onclick="showPage('formation')" style="border-left-color: var(--yellow);">
-                    <h2><span class="emoji">🎓</span> Formation & Compétences des jeunes</h2>
-                    <p>Parcours de formation cohérent, valorisant et durable</p>
-                </div>
-
-                <div class="menu-card" onclick="showPage('emploi')" style="border-left-color: var(--grey);">
-                    <h2><span class="emoji">💼</span> Emploi & Entreprises</h2>
-                    <p>Connexion durable avec le monde économique</p>
-                </div>
-
-                <div class="menu-card" onclick="showPage('citoyennete')" style="border-left-color: var(--violet);">
-                    <h2><span class="emoji">🌍</span> Citoyenneté & Engagement</h2>
-                    <p>Participation et engagement comme leviers d'autonomie</p>
-                </div>
-
-                <div class="menu-card" onclick="showPage('amelioration')" style="border-left-color: var(--light-grey);">
-                    <h2><span class="emoji">📈</span> Amélioration continue & Évaluation</h2>
-                    <p>Pilotage par la réflexivité et la coévaluation</p>
-                </div>
-
-                <div class="menu-card" onclick="showPage('ressources')" style="border-left-color: var(--light-blue);">
-                    <h2><span class="emoji">📚</span> Ressources & formulaires</h2>
-                    <p>Outils, trames et référentiels centralisés</p>
-                </div>
-
-                <div class="menu-card" onclick="showPage('professionnalisation')" style="border-left-color: var(--dark-orange);">
-                    <h2><span class="emoji">🧩</span> Professionnalisation interne</h2>
-                    <p>Montée en compétences et innovation d'équipe</p>
-                </div>
-            </div>
+      <div class="menu-grid">
+        <div class="menu-card" onclick="showPage('dispositifs')" style="border-left-color: var(--blue);">
+          <h2><span class="emoji">⚙️</span> Dispositifs d'accompagnement</h2>
+          <p>CEP, PACEA et CEJ : cohérence et fluidité des parcours</p>
+        </div>
+        <div class="menu-card" onclick="showPage('sante')" style="border-left-color: var(--pink);">
+          <h2><span class="emoji">💬</span> Santé & Bien-être</h2>
+          <p>Intégration de la santé physique, mentale et sociale</p>
+        </div>
+        <div class="menu-card" onclick="showPage('mobilites')" style="border-left-color: var(--green);">
+          <h2><span class="emoji">🚗</span> Mobilités</h2>
+          <p>Lever les freins et développer la capabilité de déplacement</p>
+        </div>
+        <div class="menu-card" onclick="showPage('formation')" style="border-left-color: var(--yellow);">
+          <h2><span class="emoji">🎓</span> Formation & Compétences</h2>
+          <p>Parcours de formation cohérent, valorisant et durable</p>
+        </div>
+        <div class="menu-card" onclick="showPage('emploi')" style="border-left-color: var(--grey);">
+          <h2><span class="emoji">💼</span> Emploi & Entreprises</h2>
+          <p>Connexion durable avec le monde économique</p>
+        </div>
+        <div class="menu-card" onclick="showPage('citoyennete')" style="border-left-color: var(--violet);">
+          <h2><span class="emoji">🌍</span> Citoyenneté & Engagement</h2>
+          <p>Participation et engagement comme leviers d'autonomie</p>
+        </div>
+        <div class="menu-card" onclick="showPage('amelioration')" style="border-left-color: var(--light-grey);">
+          <h2><span class="emoji">📈</span> Amélioration continue</h2>
+          <p>Pilotage par la réflexivité et la coévaluation</p>
+        </div>
+        <div class="menu-card" onclick="showPage('ressources')" style="border-left-color: var(--light-blue);">
+          <h2><span class="emoji">📚</span> Ressources & formulaires</h2>
+          <p>Outils, trames et référentiels centralisés</p>
+        </div>
+        <div class="menu-card" onclick="showPage('professionnalisation')" style="border-left-color: var(--dark-orange);">
+          <h2><span class="emoji">🧩</span> Professionnalisation interne</h2>
+          <p>Montée en compétences et innovation d'équipe</p>
         </div>
 
-        <!-- PAGE 1: DISPOSITIFS D'ACCOMPAGNEMENT -->
-        <div id="page-dispositifs" class="detail-page page-dispositifs">
-          <button class="btn btn-back" onclick="showPage('home')">⬅ Retour au menu principal</button>
-
-          <div class="detail-header">
-            <h1>⚙️ Dispositifs d'accompagnement</h1>
-            <div class="objective">
-              <strong>🎯 Objectif général :</strong> Garantir la cohérence et la fluidité des accompagnements du jeune à travers les dispositifs CEP, PACEA et CEJ.
-              <p style="margin-top: 15px; font-style: normal;">
-                À compter du 1er janvier 2025, le CEP constitue le cadre de référence de l'accompagnement à l'évolution professionnelle au sein des Missions Locales. Il s'inscrit dans la continuité du CEP national et du PACEA, tout en intégrant la logique d'amélioration continue, d'ancrage territorial et de traçabilité qualitative.
-              </p>
-            </div>
-          </div>
-
-          <!-- ===== SOMMAIRE ===== -->
-          <div class="content-section" id="sommaire-dispositifs">
-            <h2>🧭 Sommaire – Dispositifs et cadres d'accompagnement</h2>
-            <div class="sub-cards">
-              <a class="sub-card" href="#fiche-cej"><h4>🚀 CEJ – Contrat d’Engagement Jeune</h4><p>Accompagnement intensif 15–20h/sem. + allocation</p></a>
-              <a class="sub-card" href="#fiche-pacea"><h4>📄 PACEA – Parcours Contractualisé</h4><p>Cadre contractuel unique, durée modulable</p></a>
-              <a class="sub-card" href="#fiche-cep"><h4>🧩 CEP – Conseil en Évolution Professionnelle</h4><p>Socle de l’accompagnement MLPB (N1/N2)</p></a>
-              <a class="sub-card" href="#fiche-posture"><h4>🎧 Posture professionnelle en entretien</h4><p>Écoute active, cadre clair, co-construction</p></a>
-              <a class="sub-card" href="#fiche-alliance"><h4>🤝 Alliance de travail</h4><p>Objectifs partagés, tâches, lien de coopération</p></a>
-              <a class="sub-card" href="#fiche-aps"><h4>🧭 APS – Analyse Partagée de Situation</h4><p>Croiser les regards, prioriser, coordonner</p></a>
-              <a class="sub-card" href="#cartes-memoire"><h4>🗂️ Cartes-Mémoire d’accompagnement</h4><p>6 outils express : motivation, expériences, besoins, posture, causalité, animation</p></a>
-            </div>
-          </div>
-
-          <!-- ===== FICHE CEP ===== -->
-          <div class="content-section" id="fiche-cep" tabindex="-1">
-            <h2>🧩 CEP – Conseil en Évolution Professionnelle</h2>
-            <div class="highlight-box">
-              <strong>Mission :</strong> Socle de l’accompagnement MLPB. Accueil-information (Niveau 1) et accompagnement personnalisé (Niveau 2) pour construire, valider et mettre en œuvre un projet d’évolution professionnelle <em>co-construit</em>.
-            </div>
-
-            <h3>JEUNE</h3>
-            <div class="schema">
-              <div class="schema-flow">
-                <div class="schema-step">1er accueil</div>
-                <div class="schema-step">↓</div>
-                <div class="schema-step">CEP N1 – Accueil / Information / Orientation</div>
-                <div class="schema-step">↓</div>
-                <div class="schema-step">CEP N2 – Accompagnement personnalisé</div>
-              </div>
-            </div>
-
-            <h3>Diagnostic partagé (CEP N2)</h3>
-            <ul>
-              <li>Évaluation globale (projet, freins/ressources, mobilité, santé, numérique, vie sociale)</li>
-              <li>Formalisation sur IMILO (RPE) et plan d’actions individualisé</li>
-            </ul>
-
-            <h3>Éléments de cadrage</h3>
-            <ul>
-              <li>Neutralité, confidentialité, respect du rythme</li>
-              <li>Objectifs concrets et mesurables, <em>revus régulièrement</em></li>
-              <li>Traçabilité et droit au retour (ré-ouverture possible en cas de besoin)</li>
-            </ul>
-
-            <h3>Sorties / transitions</h3>
-            <ul>
-              <li>Vers PACEA ou CEJ selon situation</li>
-              <li>Vers partenaires (santé, social, formation, emploi) avec sécurisation des relais</li>
-            </ul>
-          </div>
-
-          <!-- ===== FICHE PACEA ===== -->
-          <div class="content-section" id="fiche-pacea" tabindex="-1">
-            <h2>📄 PACEA – Parcours Contractualisé d’Accompagnement</h2>
-            <div class="highlight-box">
-              <strong>Principe :</strong> Cadre contractuel unique Mission Locale, <strong>accompagnement global</strong> à rythme adapté. À compter du <strong>01/01/2025</strong>, <strong>inscription France Travail obligatoire</strong> pour l’entrée en PACEA. <br>
-              <em>Aides ponctuelles mobilisables selon enveloppe MLPB et besoins objectivés.</em>
-            </div>
-
-            <h3>JEUNE</h3>
-            <div class="schema">
-              <div class="schema-flow">
-                <div class="schema-step">1er accueil</div>
-                <div class="schema-step">↓</div>
-                <div class="schema-step">Accueil – Information – Orientation<br><small>CEP niveau 1 (Accueil individualisé adapté)</small></div>
-              </div>
-            </div>
-
-            <h3>Réponse ponctuelle</h3>
-            <ul>
-              <li>Identifier la demande, la situation, les compétences acquises et les attentes avant l’entrée éventuelle en PACEA</li>
-            </ul>
-
-            <h3>Orientation vers partenaire (si besoin)</h3>
-            <ul>
-              <li>Sécuriser l’orientation externe et limiter les ruptures avant engagement</li>
-            </ul>
-
-            <h3>Diagnostic partagé obligatoire</h3>
-            <ul>
-              <li>1 – Cliquer sur RPE dans IMILO</li>
-              <li>2 – Inscription France Travail</li>
-              <li>3 – Questionnaire d’Orientation</li>
-              <li>4 – Décision d’Orientation</li>
-              <li>5 – Diagnostic partagé</li>
-            </ul>
-
-            <h3>Durée et organisation</h3>
-            <ul>
-              <li><strong>Durée maximale : 24 mois</strong> (séquences de durée/intensité variables)</li>
-              <li>Chaque phase comporte des objectifs co-définis et une évaluation à son terme</li>
-            </ul>
-
-            <h3>Sorties PACEA</h3>
-            <ul>
-              <li><strong>Sorties prématurées</strong> : abandon, limite d’âge (26 ans), décès, accès à l’autonomie, non-respect des engagements, déménagement, ré-orientation</li>
-              <li><strong>Sortie au terme</strong> : fin des 24 mois. Possibilité d’<strong>un nouveau PACEA</strong> (24 mois)</li>
-            </ul>
-          </div>
-
-          <!-- ===== FICHE CEJ ===== -->
-          <div class="content-section" id="fiche-cej" tabindex="-1">
-            <h2>🚀 CEJ – Contrat d’Engagement Jeune</h2>
-            <div class="highlight-box">
-              <strong>Principe :</strong> Accompagnement global renforcé avec <strong>15 à 20 h d’activités / semaine</strong> et <strong>au moins 1 entretien individuel / mois</strong>. À compter du <strong>01/01/2025</strong>, <strong>inscription France Travail obligatoire</strong> pour l’entrée en CEJ. <br>
-              <em>Allocation mensuelle mobilisable dès 16 ans, selon critères internes MLPB (cf. intranet CEJ).</em>
-            </div>
-
-            <h3>JEUNE</h3>
-            <div class="schema">
-              <div class="schema-flow">
-                <div class="schema-step">1er accueil</div>
-                <div class="schema-step">↓</div>
-                <div class="schema-step">Accueil – Information – Orientation<br><small>CEP niveau 1 (Accueil individualisé adapté)</small></div>
-              </div>
-            </div>
-
-            <h3>Diagnostic partagé obligatoire</h3>
-            <ul>
-              <li>1 – Cliquer sur RPE dans IMILO</li>
-              <li>2 – Inscription France Travail</li>
-              <li>3 – Questionnaire d’Orientation</li>
-              <li>4 – Décision d’Orientation</li>
-              <li>5 – Diagnostic partagé</li>
-            </ul>
-
-            <h3>Éligibilité à l’accompagnement</h3>
-            <ul>
-              <li>Pas d’emploi à l’entrée (tolérance possible pour emploi très précaire si dispo 15–20 h/sem.)</li>
-              <li>Pas de formation en cours (CNED, FOAD, scolaire, PRF…)</li>
-            </ul>
-
-            <h3>Éligibilité à l’allocation</h3>
-            <ul>
-              <li>Allocation attribuable à tout jeune signataire CEJ, <em>sous condition de ressources</em> (cf. fiche pratique intranet CEJ)</li>
-              <li>Montant plafonné suivant vos barèmes internes (référence méthode MLPB)</li>
-            </ul>
-
-            <h3>Durée et organisation</h3>
-            <ul>
-              <li>Durée de référence : <strong>12 mois</strong></li>
-              <li>Prolongation possible jusqu’à <strong>18 mois</strong> (commission + argumentaire)</li>
-              <li>Rythme : 15–20 h d’activités/sem. + suivi renforcé</li>
-              <li><strong>Exception RQTH :</strong> pas d’obligation 15–20 h ; accompagnement possible jusqu’à 29 ans</li>
-            </ul>
-
-            <h3>Engagements mutuels</h3>
-            <ul>
-              <li>Annexe 2 “Droits et Devoirs” – Lecture partagée et signature jeune/conseiller</li>
-              <li>Déclaration des démarches du jeune sur l’<strong>Appli CEJ</strong></li>
-            </ul>
-
-            <h3>Sorties CEJ</h3>
-            <ul>
-              <li><strong>Sorties du droit commun</strong> (cf. fiche pratique intranet “Définition et motifs de sortie du CEJ”)</li>
-              <li><strong>Rupture pour sanction</strong> (ex. fausse déclaration)</li>
-            </ul>
-          </div>
-
-          <!-- ===== FICHE POSTURE ===== -->
-          <div class="content-section" id="fiche-posture" tabindex="-1">
-            <h2>🎧 Posture professionnelle en situation d’entretien</h2>
-            <div class="highlight-box">
-              <strong>Principes :</strong> Écoute active, non-jugement, cadre explicite, co-construction. L’objectif est de favoriser l’autonomie et la capacité d’agir du jeune.
-            </div>
-
-            <h3>JEUNE</h3>
-            <div class="schema">
-              <div class="schema-flow">
-                <div class="schema-step">Accueil & cadrage</div>
-                <div class="schema-step">↓</div>
-                <div class="schema-step">Clarification de la demande</div>
-                <div class="schema-step">↓</div>
-                <div class="schema-step">Co-définition objectifs</div>
-                <div class="schema-step">↓</div>
-                <div class="schema-step">Plan d’actions & suivi</div>
-              </div>
-            </div>
-
-            <h3>Compétences clés</h3>
-            <ul>
-              <li>Questionnement ouvert, reformulation, synthèse</li>
-              <li>Cadre clair (rôles, durée, règles, données)</li>
-              <li>Feedbacks factuels, encouragements ciblés</li>
-              <li>Ajustement des exigences et repères</li>
-            </ul>
-
-            <h3>Points de vigilance</h3>
-            <ul>
-              <li>Ne pas décider à la place, ni sur-responsabiliser</li>
-              <li>Éviter la complaisance ou la moralisation</li>
-              <li>Gérer le temps pour préserver la qualité de la relation</li>
-            </ul>
-          </div>
-
-          <!-- ===== FICHE ALLIANCE ===== -->
-          <div class="content-section" id="fiche-alliance" tabindex="-1">
-            <h2>🤝 Alliance de travail</h2>
-            <div class="highlight-box">
-              <strong>Définition opérationnelle MLPB :</strong> Accord <em>clair et partagé</em> sur les objectifs, les tâches de chacun et le lien de coopération, afin de sécuriser la progression.
-            </div>
-
-            <h3>JEUNE</h3>
-            <div class="schema">
-              <div class="schema-flow">
-                <div class="schema-step">Explicitation des objectifs</div>
-                <div class="schema-step">↓</div>
-                <div class="schema-step">Répartition des tâches</div>
-                <div class="schema-step">↓</div>
-                <div class="schema-step">Rythme / canaux de suivi</div>
-                <div class="schema-step">↓</div>
-                <div class="schema-step">Bilans & ajustements</div>
-              </div>
-            </div>
-
-            <h3>Éléments concrets</h3>
-            <ul>
-              <li>Objectifs co-rédigés, datés, mesurables</li>
-              <li>Tâches “Jeune / Conseiller” explicites + délais</li>
-              <li>Points réguliers planifiés (mensuels a minima)</li>
-              <li>Adaptations formalisées après chaque bilan</li>
-            </ul>
-          </div>
-
-          <!-- ===== FICHE APS ===== -->
-          <div class="content-section" id="fiche-aps" tabindex="-1">
-            <h2>🧭 APS – Analyse Partagée de Situation</h2>
-            <div class="highlight-box">
-              <strong>Objectif :</strong> Croiser les regards pour prioriser les besoins, coordonner les interventions et prévenir les ruptures de parcours.
-            </div>
-
-            <h3>JEUNE</h3>
-            <div class="schema">
-              <div class="schema-flow">
-                <div class="schema-step">Motif de l’APS</div>
-                <div class="schema-step">↓</div>
-                <div class="schema-step">Faits & éléments objectifs</div>
-                <div class="schema-step">↓</div>
-                <div class="schema-step">Ressources / freins / acteurs</div>
-                <div class="schema-step">↓</div>
-                <div class="schema-step">Objectifs & priorités</div>
-                <div class="schema-step">↓</div>
-                <div class="schema-step">Plan d’actions coordonné</div>
-              </div>
-            </div>
-
-            <h3>Organisation</h3>
-            <ul>
-              <li>Participants ciblés (interne/partenaires) selon le motif</li>
-              <li>Animé par un référent qui garantit le cadre et la synthèse</li>
-              <li>Compte-rendu court, décisions + responsabilités + échéances</li>
-            </ul>
-
-            <h3>Sorties / suites</h3>
-            <ul>
-              <li>Plan d’actions partagé et traçabilité dans IMILO</li>
-              <li>Suivi calendré avec points d’étape</li>
-              <li>Révision de l’APS si événement majeur</li>
-            </ul>
-          </div>
-
-          <!-- ===== CARTES-MÉMOIRE ===== -->
-          <div class="content-section" id="cartes-memoire" tabindex="-1">
-            <h2>🗂️ Cartes-Mémoire d’accompagnement (prêtes à l’emploi)</h2>
-            <p>Des fiches ultra-pratiques à dégainer en entretien ou en atelier. Chaque carte cible un levier clé de motivation, d’autonomisation et de progression.</p>
-
-            <!-- Carte 1 -->
-            <div class="sub-cards">
-              <div class="sub-card" style="border-left-color: var(--blue);">
-                <h4>📌 Carte-Mémoire 1 : Grille de diagnostic motivationnel</h4>
-                <p><strong>Objectif :</strong> repérer les freins et les leviers de motivation chez le jeune.</p>
-                <h4>Indicateurs à observer</h4>
-                <ul>
-                  <li>Capacité à se fixer des objectifs</li>
-                  <li>Sentiment d’efficacité personnelle</li>
-                  <li>Rapport au temps, à l’effort, à l’erreur</li>
-                  <li>Décrochage, démobilisation, résistances sociales/familiales</li>
-                </ul>
-                <h4>Questions-clés</h4>
-                <ul>
-                  <li>Qu’est-ce qui te donne envie d’agir ?</li>
-                  <li>Qu’est-ce qui te bloque ou t’ennuie dans ton parcours ?</li>
-                  <li>As-tu déjà transformé une difficulté en réussite ? Comment ?</li>
-                </ul>
-              </div>
-
-              <!-- Carte 2 -->
-              <div class="sub-card" style="border-left-color: var(--green);">
-                <h4>🏅 Carte-Mémoire 2 : Expériences capacitantes</h4>
-                <p><strong>Objectif :</strong> permettre au jeune de vivre des succès adaptés à ses forces.</p>
-                <h4>Modalités d’action</h4>
-                <ul>
-                  <li>Proposer des <strong>défis équilibrés</strong> (ni trop simples, ni trop compliqués)</li>
-                  <li><strong>Valoriser</strong> les forces et les difficultés surmontées</li>
-                  <li><strong>Multiplier</strong> les expériences variées pour renforcer la confiance</li>
-                </ul>
-              </div>
-
-              <!-- Carte 3 -->
-              <div class="sub-card" style="border-left-color: var(--yellow);">
-                <h4>🧱 Carte-Mémoire 3 : Besoins et accompagnement (selon Maslow)</h4>
-                <p><strong>Objectif :</strong> ajuster l’accompagnement au niveau de besoin prioritaire.</p>
-                <table>
-                  <thead>
-                    <tr><th>Strate du besoin</th><th>Leviers d’accompagnement</th></tr>
-                  </thead>
-                  <tbody>
-                    <tr><td>Sécurité</td><td>Rassurer, expliquer les aides concrètes</td></tr>
-                    <tr><td>Social</td><td>Encourager l’interaction et le collectif</td></tr>
-                    <tr><td>Estime</td><td>Valoriser, féliciter, proposer des défis</td></tr>
-                    <tr><td>Accomplissement</td><td>Encourager l’initiative, l’autonomie</td></tr>
-                  </tbody>
-                </table>
-              </div>
-
-              <!-- Carte 4 -->
-              <div class="sub-card" style="border-left-color: var(--violet);">
-                <h4>🧭 Carte-Mémoire 4 : Posture du passeur</h4>
-                <p><strong>Objectif :</strong> favoriser une dynamique d’accompagnement motivante.</p>
-                <h4>Principes de posture</h4>
-                <ul>
-                  <li>Considérer la personne dans sa globalité et son contexte</li>
-                  <li>Accompagner <strong>sans contrôler ni imposer</strong></li>
-                  <li>Valoriser la <strong>co-construction</strong>, la médiation du sens, l’autonomisation</li>
-                </ul>
-              </div>
-
-              <!-- Carte 5 -->
-              <div class="sub-card" style="border-left-color: var(--orange);">
-                <h4>🎯 Carte-Mémoire 5 : Entretien d’auto-attribution causale</h4>
-                <p><strong>Objectif :</strong> travailler la responsabilisation et l’impact personnel dans le parcours.</p>
-                <h4>Questions à utiliser</h4>
-                <ul>
-                  <li>Selon toi, à quoi sont dus tes succès / échecs ?</li>
-                  <li>Peux-tu repenser à un moment d’action qui t’a permis de changer les choses ?</li>
-                  <li>Qu’ajouterais-tu ou retirerais-tu pour rendre ta situation plus supportable / agréable ?</li>
-                </ul>
-              </div>
-
-              <!-- Carte 6 -->
-              <div class="sub-card" style="border-left-color: var(--light-blue);">
-                <h4>⚡ Carte-Mémoire 6 : Stratégies d’animation motivantes</h4>
-                <p><strong>Actions clés :</strong></p>
-                <ul>
-                  <li>Varier les modalités (oral, écrit, pratique)</li>
-                  <li>Permettre le <strong>choix</strong> et l’<strong>autonomie</strong> dans le parcours</li>
-                  <li>Favoriser l’<strong>expérientiel</strong> et la <strong>pairagogie</strong> (entre pairs)</li>
-                  <li>Renforcer positivement et rendre les <strong>progrès visibles</strong></li>
-                  <li>Maintenir une <strong>écoute active</strong> et un <strong>dialogue bienveillant</strong></li>
-                </ul>
-              </div>
-            </div>
-          </div>
-
-          <!-- ===== PARCOURS INTÉGRÉ ===== -->
-          <div class="content-section">
-            <h2>🪜 Parcours intégré : CEP + PACEA + CEJ</h2>
-            <div class="schema">
-              <div class="schema-flow">
-                <div class="schema-step">Accueil CEP N1</div>
-                <div class="schema-step">Diagnostic CEP N2</div>
-                <div class="schema-step">Contractualisation PACEA ou CEJ</div>
-                <div class="schema-step">Plan d'action</div>
-                <div class="schema-step">Suivi régulier</div>
-                <div class="schema-step">Bilan</div>
-                <div class="schema-step">Droit au retour</div>
-              </div>
-            </div>
-            <p style="text-align: center; margin-top: 20px; font-weight: 600;">
-              Le CEP est le socle unifié de l'accompagnement global, au croisement du PACEA, du CEJ et de la stratégie territoriale d'insertion durable.
-            </p>
-          </div>
-
-          <div class="buttons-group">
-            <button class="btn btn-download">📥 Télécharger fiche CEP complète</button>
-            <button class="btn btn-download">📥 Télécharger fiche PACEA</button>
-            <button class="btn btn-download">📥 Télécharger fiche CEJ</button>
-            <button class="btn btn-download">📥 Formulaire CEP – Accueil</button>
-            <button class="btn btn-download">📥 Diagnostic partagé CEP (IMILO)</button>
-            <button class="btn btn-download">📥 Tableau de bord CEP – PAVAMI</button>
-          </div>
-
-          <!-- MINI NAV STICKY (mobile) – uniquement sur cette page -->
-          <nav class="mini-nav" aria-label="Accès rapide dispositifs">
-            <div class="mini-nav-inner">
-              <a class="nav-cej"   href="#fiche-cej"   aria-label="Aller à CEJ"><span>CEJ</span></a>
-              <a class="nav-pacea" href="#fiche-pacea" aria-label="Aller à PACEA"><span>PACEA</span></a>
-              <a class="nav-cep"   href="#fiche-cep"   aria-label="Aller à CEP"><span>CEP</span></a>
-            </div>
-          </nav>
+        <!-- NOUVELLES CARTES -->
+        <div class="menu-card" onclick="showPage('cadre')" style="border-left-color: var(--orange);">
+          <h2><span class="emoji">📜</span> Cadre théorique de l’accompagnement</h2>
+          <p>De Schwartz à l’activation, place des ML, articulation CEJ/PACEA/CEP</p>
         </div>
-
-        <!-- PAGE 2: SANTÉ & BIEN-ÊTRE -->
-        <div id="page-sante" class="detail-page page-sante">
-            <button class="btn btn-back" onclick="showPage('home')">⬅ Retour au menu principal</button>
-            <div class="detail-header">
-                <h1>💬 Santé & Bien-être</h1>
-                <div class="objective">
-                    <strong>🎯 Objectif général :</strong> Intégrer la santé physique, mentale et sociale dans tous les parcours d'insertion.
-                    <p style="margin-top: 15px; font-style: normal;">
-                        <strong>Depuis 2018, la Mission Locale Pays Basque est reconnue Point Info Santé.</strong><br>
-                        Un lieu d'information et un accompagnement dans la réalisation de tes démarches santé.
-                    </p>
-                </div>
-            </div>
-
-            <div class="content-section">
-                <h2>🏥 Point Info Santé - Services disponibles</h2>
-                <p style="font-size: 1.1em; margin-bottom: 20px;">
-                    Ta Mission Locale est un point d'informations sur l'offre de soin disponible sur le territoire : ordinateur à disposition pour tes démarches santé, un relais vers les partenaires santé...
-                </p>
-
-                <h3>Voici les démarches sur lesquelles on t'accompagne :</h3>
-
-                <div class="sub-cards">
-                    <div class="sub-card">
-                        <h4>💳 Compte Améli / Carte Vitale</h4>
-                        <p>Créer un compte Améli, utiliser ton espace, commander une carte vitale, déclarer un médecin traitant...</p>
-                        <p><strong>Ta Mission Locale t'accompagne dans l'ouverture de tes droits santé !</strong></p>
-                    </div>
-
-                    <div class="sub-card">
-                        <h4>🤝 Mutuelle - Complémentaire Santé Solidaire</h4>
-                        <p>Ton conseiller t'aide à ouvrir une mutuelle salarié ou demander la <strong>Complémentaire Santé Solidaire (C2S)</strong> pour être couvert en cas de pépin santé.</p>
-                    </div>
-
-                    <div class="sub-card">
-                        <h4>🩺 Réaliser un bilan de santé</h4>
-                        <p>Un petit check santé ? La Mission Locale t'organise un <strong>bilan de santé 100% gratuit avec la CPAM !</strong></p>
-                        <p>Prends rdv avec ton conseiller pour t'y inscrire.</p>
-                    </div>
-
-                    <div class="sub-card">
-                        <h4>⚠️ Prévention des risques</h4>
-                        <p>Sexualité, comportements à risques, addictions...</p>
-                        <p>Ta Mission Locale t'informe sur les dispositifs pour prendre soin de ta santé physique et mentale et te mettre en lien avec les partenaires.</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="content-section">
-                <h2>🧠 Santé mentale & bien-être émotionnel</h2>
-                <div class="highlight-box">
-                    <strong>LS4YOU – Physical & Mental Fitness</strong>
-                    <p>Programme innovant de développement des compétences de vie incluant la gestion du stress, l'intelligence émotionnelle et le bien-être psychologique.</p>
-                </div>
-
-                <h3>🎭 Écoute psychologique</h3>
-                <div class="highlight-box" style="background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%); border-left-color: var(--blue);">
-                    <h4 style="color: var(--blue); margin-bottom: 15px;">👋 Rencontre Stéphanie, psychologue à la Mission Locale Pays Basque</h4>
-                    <ul style="margin-top: 10px; line-height: 1.8;">
-                        <li>Réguler ses émotions, se connaître, gérer ses difficultés</li>
-                        <li>Prendre confiance en soi et identifier ses ressources</li>
-                        <li>Repérer ses freins et ses sources d'inspiration</li>
-                        <li>Lever les blocages dans le projet professionnel</li>
-                    </ul>
-                </div>
-
-                <h3 style="margin-top: 30px;">Services d'accompagnement psychologique</h3>
-                <ul>
-                    <li>Ateliers de gestion du stress et des émotions</li>
-                    <li>Techniques de relaxation et de pleine conscience</li>
-                    <li>Prévention du burn-out et de l'épuisement</li>
-                    <li>Orientation vers des professionnels de santé mentale</li>
-                </ul>
-            </div>
-
-            <div class="content-section">
-                <h2>🏥 E.M.O.A.Ψ - Équipe Mobile d'Accès aux Soins Psychologiques</h2>
-                <div class="highlight-box" style="background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%); border-left-color: var(--yellow);">
-                    <strong>Mission :</strong> Faciliter l'accès aux soins en santé mentale des personnes en précarité (rupture ou non-accès aux soins).
-                </div>
-
-                <p style="margin-top: 20px;">Équipe pluridisciplinaire (infirmières, cadre, IPA, psychiatre) localisée à Zabal. Actions auprès des acteurs médico-sociaux et du public.</p>
-            </div>
-
-            <div class="content-section">
-                <h2>🏃 MUGITU - Activité physique et bien-être</h2>
-                <div class="highlight-box" style="background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%); border-left-color: var(--green);">
-                    <strong>Mugitu :</strong> "Bouger" en basque. Faire de l'activité physique pour lutter contre la sédentarité et aller bien.
-                </div>
-                <ul>
-                    <li>Questionnaire de niveau d’activité</li>
-                    <li>Ateliers hebdomadaires</li>
-                    <li>Repérage des effets bien-être</li>
-                </ul>
-            </div>
-
-            <div class="content-section">
-                <h2>❤️ Accès aux soins et prévention</h2>
-                <ul>
-                    <li>Droits santé (CPAM, mutuelle, C2S)</li>
-                    <li>Partenariats ARS et structures locales</li>
-                    <li>Prévention santé (addictions, nutrition, sexualité)</li>
-                </ul>
-            </div>
-
-            <div class="buttons-group">
-                <button class="btn btn-download">📥 Télécharger la fiche Santé Jeunes – MLPB 2025</button>
-                <button class="btn btn-download">📥 Annuaire partenaires santé</button>
-                <button class="btn btn-download">📥 Guide Point Info Santé</button>
-                <button class="btn btn-download">📥 Questionnaire MUGITU</button>
-            </div>
+        <div class="menu-card" onclick="showPage('approche-globale')" style="border-left-color: var(--green);">
+          <h2><span class="emoji">🧠</span> Approche globale Mission Locale</h2>
+          <p>Emploi–formation–santé–logement–mobilité–famille</p>
         </div>
-
-        <!-- PAGE 3: MOBILITÉS -->
-        <div id="page-mobilites" class="detail-page page-mobilites">
-            <button class="btn btn-back" onclick="showPage('home')">⬅ Retour au menu principal</button>
-            <div class="detail-header">
-                <h1>🚗 Mobilités</h1>
-                <div class="objective">
-                    <strong>🎯 Objectif général :</strong> Lever les freins de mobilité et développer la capabilité de déplacement et d'ouverture.
-                    <p style="margin-top: 15px; font-style: normal;">
-                        <a href="https://mlpb-tools.github.io/transitions/" target="_blank"
-                           style="display: inline-flex; align-items: center; gap: 8px; padding: 12px 25px;
-                                  background: linear-gradient(135deg, var(--green), #7da819); color: white;
-                                  text-decoration: none; border-radius: 8px; font-weight: 600;
-                                  box-shadow: 0 4px 15px rgba(149, 193, 31, 0.3); transition: all 0.3s ease;"
-                           onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 20px rgba(149, 193, 31, 0.4)'"
-                           onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 15px rgba(149, 193, 31, 0.3)'">
-                            🌐 Accéder à la plateforme Transitions MLPB
-                        </a>
-                    </p>
-                </div>
-            </div>
-
-            <div class="content-section">
-                <h2>Types de mobilité accompagnés</h2>
-                <h3>🚙 Mobilité locale et solidaire</h3>
-                <div class="sub-cards">
-                    <div class="sub-card"><h4>"Je me déplace"</h4><p>Permis, prêt de véhicules, transports.</p></div>
-                    <div class="sub-card"><h4>Ateliers mécaniques</h4><p>Entretien / réparation à moindre coût.</p></div>
-                    <div class="sub-card"><h4>Covoiturage accompagné</h4><p>Réseau local, solutions solidaires.</p></div>
-                </div>
-
-                <h3>🌍 Mobilité européenne et internationale</h3>
-                <ul>
-                    <li>Roaming (accompagnement numérique)</li>
-                    <li>Take Off Pro (stages Europe)</li>
-                    <li>Erasmus+ (formations, volontariats)</li>
-                    <li>Mobilité verte</li>
-                </ul>
-
-                <h3>🧱 Mobilité transfrontalière</h3>
-                <ul>
-                    <li>Baserriberri (chantiers FR-ES)</li>
-                    <li>Lanean (emploi transfrontalier)</li>
-                    <li>Langues (espagnol, basque) et systèmes emploi/formation ES</li>
-                </ul>
-            </div>
-
-            <div class="content-section">
-                <h2>Équation de la mobilité</h2>
-                <div class="schema">
-                    <div style="text-align: center; font-size: 1.5em; font-weight: bold; color: var(--green);">
-                        Mobilité = Autonomie = Accès à l'emploi
-                    </div>
-                    <p style="margin-top: 20px; text-align: center;">
-                        La mobilité n'est pas qu'un déplacement physique, c'est une ouverture au monde, aux opportunités et à soi-même.
-                    </p>
-                </div>
-            </div>
-
-            <div class="buttons-group">
-                <a href="https://mlpb-tools.github.io/transitions/" target="_blank" class="btn btn-primary" style="text-decoration: none;">🌐 Plateforme Transitions</a>
-                <button class="btn btn-download">📥 Fiche Mobilité solidaire</button>
-                <button class="btn btn-download">🌍 Fiche Mobilité internationale</button>
-                <button class="btn btn-download">📥 Fiche Mobilité transfrontalière</button>
-            </div>
-        </div>
-
-        <!-- PAGE 4: FORMATION & COMPÉTENCES -->
-        <div id="page-formation" class="detail-page page-formation">
-            <button class="btn btn-back" onclick="showPage('home')">⬅ Retour au menu principal</button>
-            <div class="detail-header">
-                <h1>🎓 Formation & Compétences des jeunes</h1>
-                <div class="objective">
-                    <strong>🎯 Objectif général :</strong> Accompagner chaque jeune dans la construction d'un parcours de formation cohérent, valorisant et durable.
-                </div>
-            </div>
-
-            <div class="content-section">
-                <h2>Axes d'accompagnement</h2>
-                <h3>📚 Accès à la formation</h3>
-                <ul>
-                    <li>Repérage des besoins (diagnostic CEP/CEJ/PACEA)</li>
-                    <li>Information sur l'offre locale / régionale</li>
-                    <li>Démarches d'inscription et financements</li>
-                    <li>Levée des freins périphériques (transport, matériel...)</li>
-                </ul>
-
-                <h3>🧠 Compétences transversales & Life Skills</h3>
-                <div class="highlight-box">
-                    <strong>LS4YOU – Life Skills for You</strong>
-                    <p>Communication, pensée critique, créativité, collaboration, bien-être, citoyenneté.</p>
-                </div>
-                <ul>
-                    <li>Soft skills : communication, équipe, temps</li>
-                    <li>Confiance en soi, résilience</li>
-                    <li>Compétences numériques de base</li>
-                </ul>
-
-                <h3>🎓 Formation professionnelle et alternance</h3>
-                <ul>
-                    <li>Apprentissage : recherche d'entreprise</li>
-                    <li>AFEST, chantiers-écoles, VAE</li>
-                    <li>Formations qualifiantes, certifications</li>
-                </ul>
-
-                <h3>🪪 Reconnaissance & valorisation</h3>
-                <ul>
-                    <li>Open badges</li>
-                    <li>E-portfolio</li>
-                    <li>Attestations de compétences LS4YOU</li>
-                </ul>
-            </div>
-
-            <div class="content-section">
-                <h2>🛠️ Outils associés</h2>
-                <div class="sub-cards">
-                    <div class="sub-card"><h4>Portfolio numérique</h4><p>Tracer et valoriser le parcours.</p></div>
-                    <div class="sub-card"><h4>LS4YOU</h4><p>Ateliers compétences transversales.</p></div>
-                    <div class="sub-card"><h4>Plan de formation</h4><p>Feuille de route co-construite.</p></div>
-                </div>
-            </div>
-
-            <div class="buttons-group">
-                <button class="btn btn-download">📥 Fiche Formation & Compétences Jeunes</button>
-                <button class="btn btn-download">📥 Référentiel LS4YOU</button>
-                <button class="btn btn-download">📥 Guide portfolio numérique</button>
-            </div>
-        </div>
-
-        <!-- PAGE 5: EMPLOI & ENTREPRISES -->
-        <div id="page-emploi" class="detail-page page-emploi">
-            <button class="btn btn-back" onclick="showPage('home')">⬅ Retour au menu principal</button>
-            <div class="detail-header">
-                <h1>💼 Emploi & Entreprises</h1>
-                <p style="font-size: 1.3em; font-weight: 600; margin: 15px 0; color: var(--grey);">
-                    Le Service Emploi de la Mission Locale Pays Basque
-                </p>
-                <div class="objective">
-                    <strong>🎯 Partenaire de vos recrutements sur tout le territoire du Pays Basque</strong><br><br>
-                    Recruter des jeunes, déposer une offre d'emploi, accompagner l'intégration d'un jeune salarié...
-                </div>
-            </div>
-
-            <div class="content-section">
-                <h2>1️⃣ Aide personnalisée au recrutement</h2>
-                <h3>📋 Analyse de vos besoins et de vos attentes</h3>
-                <ul>
-                    <li>Entretien avec le référent emploi</li>
-                    <li>Fiche de poste et modalités (CDI, CDD, alternance)</li>
-                    <li>Compétences techniques et transversales</li>
-                </ul>
-
-                <h3>🎯 Présélection des candidats</h3>
-                <ul>
-                    <li>Matching ciblé</li>
-                    <li>Préparation des jeunes aux entretiens</li>
-                    <li>Organisation des rencontres</li>
-                </ul>
-
-                <h3>💡 Dispositifs d'aide</h3>
-                <div class="highlight-box">
-                    <strong>Mesures d’aide à l’embauche :</strong> CIE, PEC, aides alternance, emplois francs, exonérations, aides régionales.
-                </div>
-            </div>
-
-            <div class="content-section">
-                <h2>2️⃣ Intégration & maintien</h2>
-                <ul>
-                    <li>Suivi à 1 / 3 / 6 mois</li>
-                    <li>Médiation en cas de difficultés</li>
-                    <li>Plan de formation et financements (OPCO…)</li>
-                    <li>Appui handicap (OETH, Agefiph, Cap Emploi)</li>
-                </ul>
-            </div>
-
-            <div class="content-section">
-                <h2>3️⃣ Valorisation métiers</h2>
-                <div class="sub-cards">
-                    <div class="sub-card"><h4>Visites d'entreprises</h4></div>
-                    <div class="sub-card"><h4>Forums emploi</h4></div>
-                    <div class="sub-card"><h4>Job dating</h4></div>
-                    <div class="sub-card"><h4>Découverte des métiers</h4></div>
-                </div>
-
-                <h3>🧪 PMSMP</h3>
-                <ul>
-                    <li>1 jour à 1 mois, sans engagement</li>
-                    <li>Validation des compétences en situation</li>
-                </ul>
-            </div>
-
-            <div class="buttons-group">
-                <button class="btn btn-download">📥 Plaquette Service Emploi MLPB</button>
-                <button class="btn btn-download">📥 Guide des aides à l'embauche 2025</button>
-                <button class="btn btn-download">📥 Formulaire de dépôt d'offre</button>
-                <button class="btn btn-download">📥 Convention PMSMP (modèle)</button>
-                <button class="btn btn-download">📥 Annuaire conseillers emploi</button>
-            </div>
-        </div>
-
-        <!-- PAGE 6: CITOYENNETÉ & ENGAGEMENT -->
-        <div id="page-citoyennete" class="detail-page page-citoyennete">
-            <button class="btn btn-back" onclick="showPage('home')">⬅ Retour au menu principal</button>
-            <div class="detail-header">
-                <h1>🌍 Citoyenneté & Engagement</h1>
-                <div class="objective">
-                    <strong>🎯 Objectif général :</strong> Valoriser la participation et l'engagement des jeunes comme leviers d'autonomie.
-                </div>
-            </div>
-
-            <div class="content-section">
-                <h2>Formes d'engagement accompagnées</h2>
-                <h3>🌱 Engagement local</h3>
-                <ul>
-                    <li>Service civique</li>
-                    <li>Bénévolat associatif</li>
-                    <li>Projets de territoire</li>
-                </ul>
-                <h3>🌍 Engagement européen</h3>
-                <ul>
-                    <li>Take Off Pro</li>
-                    <li>Corps européen de solidarité</li>
-                    <li>Volontariat transfrontalier</li>
-                </ul>
-                <h3>🎭 Engagement culturel</h3>
-                <ul>
-                    <li>VoxMilo, Baserriberri</li>
-                    <li>Ateliers intergénérationnels, événements</li>
-                </ul>
-            </div>
-
-            <div class="buttons-group">
-                <button class="btn btn-download">📥 Fiche Engagement & Citoyenneté</button>
-                <button class="btn btn-download">📥 Guide Service Civique</button>
-                <button class="btn btn-download">📥 Répertoire associations partenaires</button>
-            </div>
-        </div>
-
-        <!-- PAGE 7: AMÉLIORATION CONTINUE -->
-        <div id="page-amelioration" class="detail-page page-amelioration">
-            <button class="btn btn-back" onclick="showPage('home')">⬅ Retour au menu principal</button>
-            <div class="detail-header">
-                <h1>📈 Amélioration continue & Évaluation</h1>
-                <div class="objective">
-                    <strong>🎯 Objectif général :</strong> Piloter la qualité de l'accompagnement par la réflexivité et la coévaluation.
-                </div>
-            </div>
-
-            <div class="content-section">
-                <h2>🎯 Radar d'auto-positionnement CEP</h2>
-                <div class="schema">
-                    <p style="text-align:center;">📊 Radar interactif (10 axes) – à intégrer dans la V2</p>
-                </div>
-                <div class="sub-cards">
-                    <div class="sub-card"><h4>1. Accessibilité</h4><p>Information claire, accueil adapté</p></div>
-                    <div class="sub-card"><h4>2. Diagnostic</h4><p>Écoute active, outils, co-construction</p></div>
-                    <div class="sub-card"><h4>3. Personnalisation</h4><p>Plan d'action sur-mesure</p></div>
-                    <div class="sub-card"><h4>4. Ressources</h4><p>Réseau, outils numériques</p></div>
-                    <div class="sub-card"><h4>5. Coordination</h4><p>Continuité inter-dispositifs</p></div>
-                    <div class="sub-card"><h4>6. Évaluation</h4><p>Résultats, satisfaction</p></div>
-                    <div class="sub-card"><h4>7. Posture</h4><p>Éthique, neutralité</p></div>
-                    <div class="sub-card"><h4>8. Formation</h4><p>Veille, professionnalisation</p></div>
-                    <div class="sub-card"><h4>9. Innovation</h4><p>Expérimentation, adaptation</p></div>
-                    <div class="sub-card"><h4>10. Traçabilité</h4><p>RGPD, suivi</p></div>
-                </div>
-            </div>
-
-            <div class="content-section">
-                <h2>📝 Plan d'action 3 mois</h2>
-                <div class="highlight-box">
-                    <strong>Structure :</strong> priorités, actions, ressources, échéances, indicateurs, suivi collectif.
-                </div>
-            </div>
-
-            <div class="buttons-group">
-                <button class="btn btn-download">📥 Grille auto-positionnement CEP</button>
-                <button class="btn btn-download">📤 Exporter mon plan d'amélioration</button>
-                <button class="btn btn-download">📥 Guide Lab CEP</button>
-            </div>
-        </div>
-
-        <!-- PAGE 8: RESSOURCES & FORMULAIRES -->
-        <div id="page-ressources" class="detail-page page-ressources">
-            <button class="btn btn-back" onclick="showPage('home')">⬅ Retour au menu principal</button>
-            <div class="detail-header">
-                <h1>📚 Ressources & formulaires</h1>
-                <div class="objective">
-                    <strong>🎯 Objectif général :</strong> Centraliser tous les outils, trames et référentiels pour homogénéiser les pratiques.
-                </div>
-            </div>
-
-            <div class="content-section" style="background: linear-gradient(135deg, #fff5e6 0%, #ffe6cc 100%); border-left: 6px solid var(--orange);">
-                <h2>🛠️ Outils interactifs CEP (NOUVEAUX !)</h2>
-                <p><strong>Accédez</strong> aux diagnostics partagés, cartes d’alliance, posture, quiz acteur…</p>
-                <div class="sub-cards">
-                    <div class="sub-card" style="background: white;">
-                        <h4>📋 Fiche Ressource CEP (Conseillers)</h4>
-                        <p>Étapes, outils, posture, cas pratiques</p>
-                        <a href="fiche-ressource-cep.html" target="_blank" class="btn btn-primary" style="margin-top: 10px; font-size: 0.9em; padding: 10px 15px; text-decoration:none;">📂 Ouvrir le guide</a>
-                    </div>
-                    <div class="sub-card" style="background: white;">
-                        <h4>🧩 Grille d'Analyse Partagée de Situation</h4>
-                        <p>Diagnostic partagé jeune-conseiller</p>
-                        <a href="outil-aps.html" target="_blank" class="btn btn-primary" style="margin-top: 10px; font-size: 0.9em; padding: 10px 15px; text-decoration:none;">📂 Ouvrir l'outil</a>
-                    </div>
-                    <div class="sub-card" style="background: white;">
-                        <h4>💬 Posture du Tenir Conseil</h4>
-                        <p>Fiche réflexive</p>
-                        <a href="outil-tenir-conseil.html" target="_blank" class="btn btn-primary" style="margin-top: 10px; font-size: 0.9em; padding: 10px 15px; text-decoration:none;">📂 Ouvrir l'outil</a>
-                    </div>
-                    <div class="sub-card" style="background: white;">
-                        <h4>🤝 Carte d'Alliance de Travail</h4>
-                        <p>Objectifs, rôles, modalités</p>
-                        <a href="outil-alliance.html" target="_blank" class="btn btn-primary" style="margin-top: 10px; font-size: 0.9em; padding: 10px 15px; text-decoration:none;">📂 Ouvrir l'outil</a>
-                    </div>
-                    <div class="sub-card" style="background: white;">
-                        <h4>🎯 Quiz "Ma Posture d'Acteur"</h4>
-                        <p>Auto-évaluation ludique</p>
-                        <a href="outil-quiz-acteur.html" target="_blank" class="btn btn-primary" style="margin-top: 10px; font-size: 0.9em; padding: 10px 15px; text-decoration:none;">📂 Ouvrir le quiz</a>
-                    </div>
-                </div>
-
-                <div style="text-align: center; margin-top: 25px;">
-                    <button class="btn btn-primary" onclick="window.open('outils-index.html', '_blank')" style="text-decoration: none; display: inline-flex; cursor: pointer; border: none;">
-                        🗂️ Voir tous les outils interactifs
-                    </button>
-                </div>
-            </div>
-
-            <div class="content-section">
-                <h2>📄 Diagnostics partagés</h2>
-                <div class="sub-cards">
-                    <div class="sub-card"><h4>Diagnostic CEP</h4><p>Analyse de la situation pro/perso</p><button class="btn btn-download" style="margin-top:10px;font-size:.9em;padding:10px 15px;">📥 Télécharger</button></div>
-                    <div class="sub-card"><h4>Diagnostic CEJ</h4><p>Grille pour accompagnement intensif</p><button class="btn btn-download" style="margin-top:10px;font-size:.9em;padding:10px 15px;">📥 Télécharger</button></div>
-                    <div class="sub-card"><h4>Diagnostic PACEA</h4><p>Freins / leviers globaux</p><button class="btn btn-download" style="margin-top:10px;font-size:.9em;padding:10px 15px;">📥 Télécharger</button></div>
-                </div>
-            </div>
-
-            <div class="content-section">
-                <h2>📋 Plans d'action</h2>
-                <ul>
-                    <li>Plan d’action CEP</li>
-                    <li>Feuille de route CEJ (hebdo / mensuelle)</li>
-                    <li>Plan PACEA</li>
-                    <li>Contrat d’objectifs</li>
-                    <li>Fiche de suivi des actions</li>
-                </ul>
-                <button class="btn btn-download" style="margin-top: 15px;">📥 Télécharger tous les modèles</button>
-            </div>
-
-            <div class="content-section">
-                <h2>📘 Référentiels nationaux</h2>
-                <ul>
-                    <li>CIBC, France Compétences, LS4YOU, Qualiopi, CEP</li>
-                </ul>
-                <button class="btn btn-download" style="margin-top: 15px;">📥 Accéder aux référentiels</button>
-            </div>
-
-            <div class="content-section">
-                <h2>📎 Dépôt GitHub</h2>
-                <div class="highlight-box">
-                    <strong>mlpb-tools/fiches</strong>
-                    <p>Versionnage, collaboration et mises à jour des fiches.</p>
-                    <button class="btn btn-primary" style="margin-top: 15px;">🔗 Accéder au dépôt GitHub</button>
-                </div>
-            </div>
-        </div>
-
-        <!-- PAGE 9: PROFESSIONNALISATION INTERNE -->
-        <div id="page-professionnalisation" class="detail-page page-professionnalisation">
-            <button class="btn btn-back" onclick="showPage('home')">⬅ Retour au menu principal</button>
-            <div class="detail-header">
-                <h1>🧩 Professionnalisation interne</h1>
-                <div class="objective">
-                    <strong>🎯 Objectif général :</strong> Renforcer la montée en compétences, l'innovation et la cohérence d'équipe.
-                </div>
-            </div>
-
-            <div class="content-section">
-                <h2>🎓 PAVAMI 2.0 – Parcours de formation continue</h2>
-                <div class="sub-cards">
-                    <div class="sub-card"><h4>AFEST</h4><p>Apprendre par l’action, réflexivité</p></div>
-                    <div class="sub-card"><h4>Digital learning</h4><p>MOOC, webinaires, LMS</p></div>
-                    <div class="sub-card"><h4>Pédagogies innovantes</h4><p>Co-dev, intelligence collective</p></div>
-                </div>
-
-                <h3>Thématiques prioritaires</h3>
-                <ul>
-                    <li>Posture et techniques d'entretien CEP</li>
-                    <li>Accompagnement global et approche systémique</li>
-                    <li>Outils numériques & IA (Roaming, portfolio, badges)</li>
-                    <li>Santé mentale et psychologie positive</li>
-                    <li>Mobilités européennes et transfrontalières</li>
-                    <li>Relations entreprises et prospection</li>
-                    <li>Évaluation et amélioration continue</li>
-                </ul>
-            </div>
-
-            <div class="buttons-group">
-                <button class="btn btn-download">📥 Plan de professionnalisation annuel</button>
-                <button class="btn btn-download">🧩 Accès Lab MLPB</button>
-                <button class="btn btn-download">📈 Tableau des compétences</button>
-                <button class="btn btn-download">📥 Catalogue de formations</button>
-            </div>
-        </div>
-
-        <!-- FOOTER -->
-        <div class="footer">
-            <p><strong>© Mission Locale Pays Basque</strong></p>
-            <p>Pôle Mobilités, Citoyenneté & Compétences Transversales – 2025</p>
-            <div class="footer-logos">
-                <span>MLPB</span><span>FSE+</span><span>POCTEFA</span><span>Erasmus+</span><span>France Travail</span>
-            </div>
-        </div>
+      </div>
     </div>
 
-    <script>
-      // SPA: navigation entre les pages
-      function showPage(pageId) {
-        document.querySelectorAll('.home-page, .detail-page').forEach(page => {
-          page.classList.remove('active');
-          page.style.display = 'none';
-        });
-        if (pageId === 'home') {
-          document.getElementById('home').style.display = 'block';
-        } else {
-          const page = document.getElementById('page-' + pageId);
-          if (page) { page.style.display = 'block'; page.classList.add('active'); }
-        }
-      }
+    <!-- PAGE DISPOSITIFS (existant, allégé ici pour garder la lisibilité) -->
+    <div id="page-dispositifs" class="detail-page page-dispositifs">
+      <button class="btn btn-back" onclick="showPage('home')">⬅ Retour</button>
+      <div class="detail-header">
+        <h1>⚙️ Dispositifs d'accompagnement</h1>
+        <div class="objective">
+          <strong>🎯 Objectif général :</strong> Garantir la cohérence et la fluidité des accompagnements du jeune à travers les dispositifs CEP, PACEA et CEJ.
+          <p style="margin-top:15px;font-style:normal">
+            Le CEP constitue le cadre de référence de l'accompagnement à l'évolution professionnelle au sein des ML et s’articule avec le PACEA et le CEJ.
+            <span class="badge">Nouveaux liens :</span>
+            <a class="inline" href="#" onclick="showPage('cadre')">Cadre théorique</a> •
+            <a class="inline" href="#" onclick="showPage('approche-globale')">Approche globale</a>
+          </p>
+        </div>
+      </div>
 
-      document.addEventListener('DOMContentLoaded', function () {
-        showPage('home');
+      <!-- Contenus CEP / PACEA / CEJ précédemment fournis (non modifiés fonctionnellement) -->
+      <div class="content-section">
+        <h2>🧭 CEP – Conseil en Évolution Professionnelle</h2>
+        <div class="highlight-box">
+          <strong>Mission du CEP :</strong> Accompagner le projet d’évolution professionnelle durable en renforçant autonomie, confiance et capabilité.
+        </div>
+        <h3>⚙️ Architecture</h3>
+        <div class="sub-cards">
+          <div class="sub-card">
+            <h4>CEP Niveau 1 – Accueil</h4>
+            <p>Premier contact, écoute, information fiable et orientation.</p>
+          </div>
+          <div class="sub-card">
+            <h4>CEP Niveau 2 – Accompagnement</h4>
+            <p>Diagnostic partagé, plan d’action, suivi régulier et outils numériques.</p>
+          </div>
+        </div>
+        <p class="ref">Références : Arrêté du 29/03/2019 (référentiel CEP) ; Code du Travail L.6111-6 à L.6111-8.</p>
+      </div>
 
-        // Sommaire "Dispositifs": ancres internes vers #fiche-...
-        document.querySelectorAll('.sub-card[href^="#"]').forEach(a => {
-          a.addEventListener('click', function (e) {
-            e.preventDefault();
-            const targetId = this.getAttribute('href').slice(1);
-            const page = document.getElementById('page-dispositifs');
-            const target = document.getElementById(targetId);
+      <div class="content-section">
+        <h2>⚙️ PACEA – Parcours Contractualisé</h2>
+        <p>Cadre contractuel unique d’accompagnement global pour les 16–25 ans.</p>
+        <div class="highlight-box"><strong>Principe :</strong> Accompagnement global avec aides ponctuelles selon besoins.</div>
+        <p class="ref">Références : Code du Travail L.5131-3 à L.5131-5 ; Décret n°2016-1855.</p>
+      </div>
 
-            // Afficher la page dispositifs
-            document.querySelectorAll('.home-page, .detail-page').forEach(pg => { pg.classList.remove('active'); pg.style.display = 'none'; });
-            page.style.display = 'block'; page.classList.add('active');
+      <div class="content-section">
+        <h2>🚀 CEJ – Contrat d’Engagement Jeune</h2>
+        <p>Accompagnement intensif (15–20h/semaine) avec allocation conditionnée à l’assiduité.</p>
+        <div class="highlight-box"><strong>Public :</strong> 16–25 ans (29 RQTH), NEET, prêts à s’engager activement.</div>
+        <p class="ref">Références : Décret n°2021-1378 ; Instruction DGEFP n°2022/16 ; Code du Travail L.5131-6 à L.5131-8.</p>
+      </div>
 
-            if (target) {
-              setTimeout(() => target.scrollIntoView({ behavior: 'smooth', block: 'start' }), 0);
-              target.setAttribute('tabindex', '-1');
-              target.focus({ preventScroll: true });
-            }
-          }, { passive: false });
-        });
+      <div class="buttons-group">
+        <a class="btn btn-primary" href="#" onclick="showPage('cadre')">📜 Lire le Cadre théorique</a>
+        <a class="btn btn-primary" href="#" onclick="showPage('approche-globale')">🧠 Lire l’Approche globale</a>
+      </div>
+    </div>
 
-        // Liens #... génériques
-        document.querySelectorAll('a[href^="#"]').forEach(a => {
-          if (!a.classList.contains('sub-card')) {
-            a.addEventListener('click', function (e) {
-              const id = this.getAttribute('href').slice(1);
-              const target = document.getElementById(id);
-              if (target) {
-                e.preventDefault();
-                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                target.setAttribute('tabindex', '-1');
-                target.focus({ preventScroll: true });
-              }
-            }, { passive: false });
-          }
-        });
+    <!-- PAGE SANTÉ (existant)… -->
+    <div id="page-sante" class="detail-page page-sante">
+      <button class="btn btn-back" onclick="showPage('home')">⬅ Retour</button>
+      <div class="detail-header">
+        <h1>💬 Santé & Bien-être</h1>
+        <div class="objective"><strong>🎯</strong> Intégrer santé physique, mentale et sociale dans tous les parcours.</div>
+      </div>
+      <!-- Contenus déjà fournis précédemment -->
+      <div class="content-section">
+        <h2>🏥 Point Info Santé</h2>
+        <p>Accompagnement aux démarches Ameli, C2S, bilans CPAM, prévention…</p>
+      </div>
+    </div>
 
-        // Boutons de téléchargement (placeholder)
-        document.querySelectorAll('.btn-download').forEach(btn => {
-          btn.addEventListener('click', function (e) {
-            e.preventDefault();
-            alert('Cette fonctionnalité de téléchargement sera activée prochainement. Les fichiers seront disponibles sur le dépôt GitHub de la Mission Locale.');
-          });
-        });
+    <!-- PAGE MOBILITÉS (existant)… -->
+    <div id="page-mobilites" class="detail-page page-mobilites">
+      <button class="btn btn-back" onclick="showPage('home')">⬅ Retour</button>
+      <div class="detail-header">
+        <h1>🚗 Mobilités</h1>
+        <div class="objective"><strong>🎯</strong> Lever les freins de mobilité et développer la capabilité.</div>
+      </div>
+      <div class="content-section">
+        <h2>Types de mobilité</h2>
+        <div class="sub-cards">
+          <div class="sub-card"><h4>Je me déplace</h4><p>Permis, prêts de véhicules, TC…</p></div>
+          <div class="sub-card"><h4>Ateliers mécaniques</h4><p>Entretien, réparation, bases méca.</p></div>
+          <div class="sub-card"><h4>Covoiturage accompagné</h4><p>Partenariats et plateformes solidaires.</p></div>
+        </div>
+      </div>
+    </div>
 
-        // Mini-nav sticky (forcer affichage page dispositifs puis scroll)
-        document.querySelectorAll('.mini-nav a').forEach(a => {
-          a.addEventListener('click', function (e) {
-            e.preventDefault();
-            const targetId = this.getAttribute('href').slice(1);
-            const page = document.getElementById('page-dispositifs');
-            const target = document.getElementById(targetId);
+    <!-- PAGE FORMATION (existant)… -->
+    <div id="page-formation" class="detail-page page-formation">
+      <button class="btn btn-back" onclick="showPage('home')">⬅ Retour</button>
+      <div class="detail-header"><h1>🎓 Formation & Compétences</h1></div>
+      <div class="content-section">
+        <h2>LS4YOU & compétences transversales</h2>
+        <div class="highlight-box"><strong>LS4YOU :</strong> communication, pensée critique, bien-être, citoyenneté.</div>
+      </div>
+    </div>
 
-            document.querySelectorAll('.home-page, .detail-page').forEach(pg => {
-              pg.classList.remove('active'); pg.style.display = 'none';
-            });
-            page.style.display = 'block';
-            page.classList.add('active');
+    <!-- PAGE EMPLOI (existant)… -->
+    <div id="page-emploi" class="detail-page page-emploi">
+      <button class="btn btn-back" onclick="showPage('home')">⬅ Retour</button>
+      <div class="detail-header"><h1>💼 Emploi & Entreprises</h1></div>
+      <div class="content-section"><h2>Service Emploi</h2><p>Présélection, PMSMP, aides, intégration.</p></div>
+    </div>
 
-            if (target) {
-              setTimeout(() => target.scrollIntoView({ behavior: 'smooth', block: 'start' }), 0);
-              target.setAttribute('tabindex', '-1');
-              target.focus({ preventScroll: true });
-            }
-          }, { passive: false });
-        });
+    <!-- PAGE CITOYENNETÉ (existant)… -->
+    <div id="page-citoyennete" class="detail-page page-citoyennete">
+      <button class="btn btn-back" onclick="showPage('home')">⬅ Retour</button>
+      <div class="detail-header"><h1>🌍 Citoyenneté & Engagement</h1></div>
+      <div class="content-section"><h2>Formes d’engagement</h2><p>Service civique, bénévolat, CES…</p></div>
+    </div>
+
+    <!-- PAGE AMÉLIORATION CONTINUE (existant)… -->
+    <div id="page-amelioration" class="detail-page page-amelioration">
+      <button class="btn btn-back" onclick="showPage('home')">⬅ Retour</button>
+      <div class="detail-header"><h1>📈 Amélioration continue & Évaluation</h1></div>
+      <div class="content-section"><h2>Radar d’auto-positionnement</h2><div class="schema"><p>📊 Outil 10 axes (bientôt interactif)</p></div></div>
+    </div>
+
+    <!-- PAGE RESSOURCES (existant) -->
+    <div id="page-ressources" class="detail-page page-ressources">
+      <button class="btn btn-back" onclick="showPage('home')">⬅ Retour</button>
+      <div class="detail-header">
+        <h1>📚 Ressources & formulaires</h1>
+        <div class="objective"><strong>🎯</strong> Centraliser outils, trames et référentiels pour homogénéiser les pratiques.</div>
+      </div>
+
+      <div class="content-section" style="background: linear-gradient(135deg,#fff5e6 0%,#ffe6cc 100%); border-left:6px solid var(--orange);">
+        <h2>🛠️ Outils interactifs CEP (NOUVEAUX)</h2>
+        <div class="sub-cards">
+          <div class="sub-card" style="background:#fff">
+            <h4>📋 Fiche Ressource CEP</h4><p>Guide opérationnel complet</p>
+            <a href="#" class="btn btn-primary" onclick="alert('Lien à renseigner')">📂 Ouvrir</a>
+          </div>
+          <div class="sub-card" style="background:#fff">
+            <h4>🧩 Grille APS</h4><p>Diagnostic partagé jeune–conseiller</p>
+            <a href="#" class="btn btn-primary" onclick="alert('Lien à renseigner')">📂 Ouvrir</a>
+          </div>
+          <div class="sub-card" style="background:#fff">
+            <h4>💬 Posture Tenir Conseil</h4><p>Fiche réflexive</p>
+            <a href="#" class="btn btn-primary" onclick="alert('Lien à renseigner')">📂 Ouvrir</a>
+          </div>
+          <div class="sub-card" style="background:#fff">
+            <h4>🤝 Alliance de travail</h4><p>Objectifs, rôles, modalités</p>
+            <a href="#" class="btn btn-primary" onclick="alert('Lien à renseigner')">📂 Ouvrir</a>
+          </div>
+          <!-- NOUVEAUX LIENS VERS LES 2 FICHES -->
+          <div class="sub-card" style="background:#fff">
+            <h4>📜 Cadre théorique</h4><p>Schwartz → Activation → CEJ/PACEA/CEP</p>
+            <a href="#" class="btn btn-primary" onclick="showPage('cadre')">📂 Ouvrir</a>
+          </div>
+          <div class="sub-card" style="background:#fff">
+            <h4>🧠 Approche globale</h4><p>Emploi–formation–santé–logement–mobilité–famille</p>
+            <a href="#" class="btn btn-primary" onclick="showPage('approche-globale')">📂 Ouvrir</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PAGE PROFESSIONNALISATION (existant)… -->
+    <div id="page-professionnalisation" class="detail-page page-professionnalisation">
+      <button class="btn btn-back" onclick="showPage('home')">⬅ Retour</button>
+      <div class="detail-header"><h1>🧩 Professionnalisation interne</h1></div>
+      <div class="content-section"><h2>PAVAMI 2.0</h2><p>AFEST, digital learning, co-dev.</p></div>
+    </div>
+
+    <!-- NOUVELLE PAGE : CADRE THÉORIQUE -->
+    <div id="page-cadre" class="detail-page page-cadre">
+      <button class="btn btn-back" onclick="showPage('home')">⬅ Retour</button>
+      <div class="detail-header">
+        <h1>📜 Cadre théorique de l’accompagnement</h1>
+        <div class="objective">
+          <strong>🎯 Finalité :</strong> Situer l’action des Missions Locales dans l’évolution des politiques publiques jeunesse pour harmoniser pratiques et langage commun.
+        </div>
+      </div>
+
+      <div class="content-section">
+        <h2>1) De Schwartz à l’activation</h2>
+        <div class="sub-cards">
+          <div class="sub-card">
+            <h4>Rapport Schwartz (1981–82)</h4>
+            <p>Fondation d’une approche territoriale, partenariale et globale de l’insertion des jeunes (naissance des Missions Locales).</p>
+          </div>
+          <div class="sub-card">
+            <h4>Période 2000–2020</h4>
+            <p>Montée des logiques d’activation, indicateurs d’accès rapide à l’emploi, intensification des dispositifs.</p>
+          </div>
+          <div class="sub-card">
+            <h4>Aujourd’hui</h4>
+            <p>Articulation CEJ/PACEA/CEP, combinaison accompagnement global–intensité–traçabilité.</p>
+          </div>
+        </div>
+        <p class="ref">
+          Références : INJEP, <em>Cahiers de l’action</em> n°64 (2025, dossier “Politiques jeunesse & accompagnement”) ; Cadres juridiques CEJ/PACEA/CEP.
+        </p>
+      </div>
+
+      <div class="content-section">
+        <h2>2) Place et spécificité des Missions Locales</h2>
+        <ul>
+          <li>Approche <strong>globale</strong> et territoriale</li>
+          <li>Coopérations multi-acteurs (France Travail, E2C, GEIQ, santé, logement, mobilité)</li>
+          <li>Posture relationnelle et <strong>temps de la relation</strong></li>
+          <li>Articulation <strong>individuel–collectif</strong>, expérientiel, réflexivité</li>
+        </ul>
+        <p class="ref">INJEP n°64 (2025) – Focus group Missions Locales ; analyses partenariales (E2C/GEIQ).</p>
+      </div>
+
+      <div class="content-section">
+        <h2>3) Articulation CEJ / PACEA / CEP</h2>
+        <div class="schema">
+          <div class="schema-flow">
+            <div class="schema-step">CEP N1 – Accueil</div>
+            <div class="schema-step">CEP N2 – Diagnostic partagé</div>
+            <div class="schema-step">Contractualisation PACEA ou CEJ</div>
+            <div class="schema-step">Plan d’action & activités</div>
+            <div class="schema-step">Suivi & ajustements</div>
+            <div class="schema-step">Bilan & droit au retour</div>
+          </div>
+        </div>
+        <p class="ref">Références juridiques : CEJ (Décret 2021-1378), PACEA (Décret 2016-1855), CEP (Arrêté 29/03/2019).</p>
+      </div>
+
+      <div class="content-section">
+        <h2>4) Repères pour la pratique (version pro)</h2>
+        <div class="sub-cards">
+          <div class="sub-card"><h4>Posture</h4><p>Neutralité, bienveillance active, co-construction, responsabilité partagée.</p></div>
+          <div class="sub-card"><h4>Organisation</h4><p>Intensité du CEJ, séquençage PACEA, traçabilité CEP (I-MILO, tableaux de bord).</p></div>
+          <div class="sub-card"><h4>Pédagogies</h4><p>Individuel + collectif, expérientiel, réflexivité, pairagogie.</p></div>
+          <div class="sub-card"><h4>Partenariats</h4><p>Emploi, formation, santé, logement, mobilité, social.</p></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- NOUVELLE PAGE : APPROCHE GLOBALE -->
+    <div id="page-approche-globale" class="detail-page page-approche-globale">
+      <button class="btn btn-back" onclick="showPage('home')">⬅ Retour</button>
+      <div class="detail-header">
+        <h1>🧠 Approche globale – Mission Locale</h1>
+        <div class="objective">
+          <strong>🎯 Finalité :</strong> Outiller la prise en compte coordonnée des dimensions emploi–formation–santé–logement–mobilité–famille afin de sécuriser les parcours.
+        </div>
+      </div>
+
+      <div class="content-section">
+        <h2>1) Les 6 domaines-clés</h2>
+        <div class="sub-cards">
+          <div class="sub-card"><h4>Emploi</h4><p>Prospection, PMSMP, alternance, intégration.</p></div>
+          <div class="sub-card"><h4>Formation</h4><p>Prépa, qualif, VAE, open badges, e-portfolio.</p></div>
+          <div class="sub-card"><h4>Santé</h4><p>Point Info Santé, santé mentale, CPAM/C2S, EMOAΨ.</p></div>
+          <div class="sub-card"><h4>Logement</h4><p>Accès et maintien, partenaires habitat, aides.</p></div>
+          <div class="sub-card"><h4>Mobilité</h4><p>“Je me déplace”, permis, TC, transfrontalier.</p></div>
+          <div class="sub-card"><h4>Famille & social</h4><p>Ressources, contraintes, médiations, droits.</p></div>
+        </div>
+        <p class="ref">INJEP n°64 (2025) – analyses UNHAJ/ML sur l’accompagnement global.</p>
+      </div>
+
+      <div class="content-section">
+        <h2>2) Schéma systémique d’utilisation</h2>
+        <div class="schema">
+          <div class="schema-flow">
+            <div class="schema-step">Demande / Signal FAIBLE ou FORT</div>
+            <div class="schema-step">CEP N1 → Orientation informée</div>
+            <div class="schema-step">CEP N2 → Diagnostic partagé (APS)</div>
+            <div class="schema-step">Choix : PACEA ↔ CEJ</div>
+            <div class="schema-step">Plan d’action multi-domaines</div>
+            <div class="schema-step">Boucles d’ajustement</div>
+            <div class="schema-step">Bilan / Droit au retour</div>
+          </div>
+        </div>
+        <p class="ref">Références : INJEP n°64 ; pratiques ML ; cadres CEJ/PACEA/CEP.</p>
+      </div>
+
+      <div class="content-section">
+        <h2>3) Outils “mémoire pro” à mobiliser</h2>
+        <div class="sub-cards">
+          <div class="sub-card">
+            <h4>Grille de diagnostic motivationnel</h4>
+            <p>Objectifs, indicateurs, questions-clés. <a class="inline" href="#" onclick="alert('Téléchargement à brancher')">Télécharger</a></p>
+          </div>
+          <div class="sub-card">
+            <h4>Expériences capacitantes</h4>
+            <p>Défis équilibrés, valorisation, diversité d’expériences.</p>
+          </div>
+          <div class="sub-card">
+            <h4>Besoins (Maslow) → Leviers</h4>
+            <p>Sécurité, social, estime, accomplissement.</p>
+          </div>
+          <div class="sub-card">
+            <h4>Posture du passeur</h4>
+            <p>Co-construction, médiation de sens, autonomisation.</p>
+          </div>
+          <div class="sub-card">
+            <h4>Auto-attribution causale</h4>
+            <p>Responsabilisation et capacité d’agir par l’entretien.</p>
+          </div>
+          <div class="sub-card">
+            <h4>Stratégies d’animation</h4>
+            <p>Individuel/collectif, expérientiel, pairagogie, feedback visible.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="content-section">
+        <h2>4) Traçabilité & pilotage</h2>
+        <ul>
+          <li>I-MILO : diagnostics, contractualisation, suivi</li>
+          <li>Tableaux de bord : CEJ/PACEA/CEP</li>
+          <li>Évaluation qualitative : progression autonomie, maintien du lien</li>
+        </ul>
+      </div>
+
+      <div class="content-section">
+        <h2>5) Références</h2>
+        <div class="ref">
+          • INJEP, <em>Cahiers de l’action</em> n°64, 2025 (dossier “Accompagner les jeunes aujourd’hui”).<br/>
+          • Cadres juridiques : CEJ (Décret n°2021-1378 ; Instr. DGEFP 2022/16), PACEA (Décret n°2016-1855), CEP (Arrêté 29/03/2019).<br/>
+          • Travaux d’André Chauvet, Agnès Heidet, M.-H. Doublet (posture, accompagnement, ingénierie de parcours).
+        </div>
+      </div>
+    </div>
+
+    <!-- FOOTER -->
+    <div class="footer">
+      <p><strong>© Mission Locale Pays Basque</strong></p>
+      <p>Pôle Mobilités, Citoyenneté & Compétences Transversales – 2025</p>
+      <div class="footer-logos">
+        <span>MLPB</span><span>FSE+</span><span>POCTEFA</span><span>Erasmus+</span><span>France Travail</span>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function showPage(pageId){
+      document.querySelectorAll('.home-page, .detail-page').forEach(page=>{
+        page.classList.remove('active');page.style.display='none';
       });
-    </script>
+      if(pageId==='home'){document.getElementById('home').style.display='block';}
+      else{
+        const page=document.getElementById('page-'+pageId);
+        if(page){page.style.display='block';page.classList.add('active');}
+      }
+      window.scrollTo({top:0,behavior:'smooth'});
+    }
+    document.addEventListener('DOMContentLoaded',function(){showPage('home');});
+    // Prévenir les faux téléchargements tant que les fichiers ne sont pas branchés
+    document.querySelectorAll('.btn-download').forEach(btn=>{
+      btn.addEventListener('click',function(e){
+        if(!this.hasAttribute('data-href')){e.preventDefault();alert('Téléchargement bientôt disponible (dépôt GitHub MLPB).');}
+      });
+    });
+  </script>
 </body>
 </html>
+

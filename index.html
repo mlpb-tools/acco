@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>MLPB – Répertoire interactif (PACEA • CEJ • CEP 2.0 • Posture • Entretien • APS • Alliance • Synthèse)</title>
+  <link href="https://fonts.googleapis.com/css2?family=Mulish:wght@300;400;600;800&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --orange:#f39200; --vert:#95c11f; --bleu:#2897d5; --rose:#d60b52; --noir:#171718;
+      --bg:#f6f7f8; --card:#ffffff; --muted:#6b7280; --line:#e5e7eb;
+      --radius:16px;
+    }
+    *{box-sizing:border-box}
+    html,body{margin:0}
+    body{
+      font-family:Mulish,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+      background:linear-gradient(135deg,#f4f4f4 0%,#e8e8e8 100%);
+      color:#222;
+    }
+    header{
+      position:sticky; top:0; z-index:50; background:#fff; border-bottom:1px solid var(--line);
+    }
+    .bar{
+      max-width:1200px; margin:auto; padding:1rem; display:flex; gap:.75rem; align-items:center; flex-wrap:wrap;
+    }
+    .brand{font-weight:800; letter-spacing:.2px; color:var(--noir)}
+    .tag{font-size:.8rem; background:#00000008; padding:.25rem .5rem; border-radius:999px}
+    .tabs{display:flex; gap:.5rem; flex-wrap:wrap; margin-left:auto}
+    .tab{
+      border:1px solid var(--line); background:#fff; color:#333; padding:.55rem .8rem; border-radius:10px;
+      font-weight:700; font-size:.9rem; cursor:pointer; transition:.2s ease; user-select:none;
+    }
+    .tab:hover{transform:translateY(-1px); border-color:#dcdcdc}
+    .tab.active{color:#fff; background:linear-gradient(135deg,var(--bleu),var(--orange)); border-color:transparent}
+    main{max-width:1100px; margin:2rem auto; padding:0 1rem 4rem}
+    .card{
+      background:var(--card); border-radius:var(--radius); box-shadow:0 10px 30px rgba(0,0,0,.06);
+      padding:1.2rem; margin-bottom:1rem; border:1px solid var(--line);
+    }
+    h1{font-size:1.9rem; margin:.2rem 0 1rem; background:linear-gradient(135deg,var(--orange),var(--rose));
+       -webkit-background-clip:text; -webkit-text-fill-color:transparent; font-weight:800}
+    h2{font-size:1.25rem; margin:.2rem 0 1rem; color:var(--noir)}
+    p.lead{color:#444; margin-top:0}
+    .grid{display:grid; gap:1rem}
+    @media(min-width:900px){ .grid.cols-2{grid-template-columns:1fr 1fr} .grid.cols-3{grid-template-columns:repeat(3,1fr)} }
+    label{font-weight:700; font-size:.95rem; color:#374151}
+    input[type="text"], input[type="date"], input[type="number"], textarea, select{
+      width:100%; padding:.75rem .9rem; border:2px solid #e5e7eb; border-radius:10px; font:inherit; background:#fff;
+      transition:.15s; color:#111;
+    }
+    textarea{min-height:120px; resize:vertical}
+    input:focus, textarea:focus, select:focus{outline:none; border-color:var(--bleu); box-shadow:0 0 0 3px #2897d515}
+    .hint{font-size:.85rem; color:var(--muted)}
+    .pill{display:inline-block; padding:.35rem .65rem; border-radius:999px; background:#00000008; font-size:.8rem; font-weight:700; color:#374151}
+    .actions{display:flex; gap:.5rem; flex-wrap:wrap}
+    .btn{
+      border:none; border-radius:10px; padding:.7rem 1rem; font-weight:800; cursor:pointer; transition:.2s; font-size:.95rem;
+    }
+    .btn:hover{transform:translateY(-1px)}
+    .btn-save{background:var(--orange); color:#fff}
+    .btn-reset{background:#fff; color:#333; border:2px solid #e5e7eb}
+    .btn-export{background:var(--bleu); color:#fff}
+    .btn-print{background:var(--vert); color:#fff}
+    .badge{font-size:.75rem; font-weight:800; color:#fff; padding:.2rem .5rem; border-radius:6px}
+    .b-orange{background:var(--orange)} .b-bleu{background:var(--bleu)} .b-vert{background:var(--vert)} .b-rose{background:var(--rose)}
+    .kv{display:grid; grid-template-columns:220px 1fr; gap:.75rem; align-items:center}
+    .kv .k{font-weight:800; color:#374151}
+    footer{
+      border-top:1px solid var(--line); background:#fff; padding:1rem; color:#555; text-align:center;
+    }
+    .links{display:flex; gap:.75rem; flex-wrap:wrap; justify-content:center}
+    .link{font-weight:800; color:var(--bleu); text-decoration:none}
+    /* print */
+    @media print{
+      header,.actions,footer,.tabs{display:none !important}
+      body{background:#fff}
+      main{margin:0; padding:0}
+      .card{box-shadow:none; border-color:#ddd}
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="bar">
+      <div class="brand">MLPB • Répertoire Interactif</div>
+      <div class="tag">PACEA</div><div class="tag">CEJ</div><div class="tag">CEP 2.0</div>
+      <nav class="tabs" id="tabs"></nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="card">
+      <h1>Répertoire d’accompagnement – Mission Locale Pays Basque</h1>
+      <p class="lead">Fiches interactives prêtes à l’emploi : <b>PACEA</b>, <b>CEJ</b>, <b>CEP 2.0</b>, <b>Posture – Tenir Conseil</b>, <b>Guide d’entretien</b>, <b>APS</b>, <b>Carte d’alliance</b>, <b>Synthèse CEP</b>. Données sauvegardées automatiquement dans votre navigateur (localStorage).</p>
+      <div class="actions">
+        <button class="btn btn-save" onclick="saveAll()">💾 Sauver tout</button>
+        <button class="btn btn-export" onclick="exportAll()">📤 Exporter (.json)</button>
+        <button class="btn btn-print" onclick="window.print()">🖨️ Imprimer / PDF</button>
+        <button class="btn btn-reset" onclick="resetCurrent()">♻️ Réinitialiser la fiche courante</button>
+      </div>
+    </section>
+
+    <div id="view"></div>
+  </main>
+
+  <footer>
+    <div class="links">
+      <a class="link" href="https://mlpb-tools.github.io/cep2.0/" target="_blank">CEP 2.0</a>
+      <a class="link" href="https://mlpb-tools.github.io/regards_croises/" target="_blank">Regards croisés</a>
+    </div>
+    <div style="margin-top:.35rem; font-size:.85rem; color:#777">© 2025 Mission Locale Pays Basque — Design CEP 2.0</div>
+  </footer>
+
+  <script>
+    /* ========= Modèle de données par fiche ========= */
+    const PAGES = [
+      { id:'pacea',  label:'PACEA',  color:'b-vert',  render: renderPACEA },
+      { id:'cej',    label:'CEJ',    color:'b-bleu',  render: renderCEJ },
+      { id:'cep',    label:'CEP 2.0',color:'b-orange',render: renderCEP },
+      { id:'posture',label:'Posture',color:'b-rose',  render: renderPosture },
+      { id:'entretien',label:'Entretien',color:'b-bleu', render: renderEntretien },
+      { id:'aps',    label:'APS',    color:'b-vert',  render: renderAPS },
+      { id:'alliance',label:'Alliance',color:'b-orange', render: renderAlliance },
+      { id:'synthese',label:'Synthèse CEP',color:'b-rose', render: renderSynthese }
+    ];
+
+    const STATE_KEY = 'mlpb_repo_state_v1';
+    let state = loadState();
+
+    function loadState(){
+      try{
+        const raw = localStorage.getItem(STATE_KEY);
+        return raw ? JSON.parse(raw) : {};
+      }catch(e){ return {}; }
+    }
+    function saveState(){ localStorage.setItem(STATE_KEY, JSON.stringify(state)); }
+    function val(path, def=''){
+      const [page,key] = path.split(':');
+      return (state[page] && state[page][key]!==undefined) ? state[page][key] : def;
+    }
+    function setVal(path, v){
+      const [page,key] = path.split(':');
+      state[page] = state[page] || {};
+      state[page][key] = v;
+      saveState();
+    }
+
+    function inputText(path, label, placeholder='', large=false){
+      return `
+        <div class="card">
+          <label>${label}</label>
+          <input type="text" placeholder="${placeholder}" value="${escapeHtml(val(path))}"
+                 oninput="setVal('${path}', this.value)">
+        </div>`;
+    }
+    function textarea(path, label, placeholder=''){
+      return `
+        <div class="card">
+          <label>${label}</label>
+          <textarea placeholder="${placeholder}" oninput="setVal('${path}', this.value)">${escapeHtml(val(path))}</textarea>
+        </div>`;
+    }
+    function checkbox(path, label){
+      const checked = val(path) ? 'checked' : '';
+      return `
+        <label style="display:flex; gap:.5rem; align-items:center; font-weight:700;">
+          <input type="checkbox" ${checked} onchange="setVal('${path}', this.checked)"/>
+          ${label}
+        </label>`;
+    }
+    function threeCols(a,b,c){
+      return `<div class="grid cols-3">${a}${b}${c}</div>`;
+    }
+    function twoCols(a,b){
+      return `<div class="grid cols-2">${a}${b}</div>`;
+    }
+    function sectionTitle(txt, badgeClass='b-bleu'){
+      return `<div class="card"><span class="badge ${badgeClass}">${txt}</span></div>`;
+    }
+    function actionsFooter(id){
+      return `
+        <div class="card" style="display:flex; gap:.5rem; flex-wrap:wrap;">
+          <button class="btn btn-save" onclick="saveAll()">💾 Sauver</button>
+          <button class="btn btn-export" onclick="exportCurrent('${id}')">📤 Exporter cette fiche</button>
+          <button class="btn btn-print" onclick="window.print()">🖨️ PDF</button>
+          <button class="btn btn-reset" onclick="resetCurrent()">♻️ Réinitialiser</button>
+        </div>`;
+    }
+    function escapeHtml(s){ return (s||'').replace(/[&<>"]/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m])); }
+
+    /* ========= Renders ========= */
+
+    function renderPACEA(){
+      const id = 'pacea';
+      return `
+        <section class="card">
+          <h2>PACEA – Parcours contractualisé d’accompagnement vers l’emploi et l’autonomie</h2>
+          <p class="hint">Objectifs : autonomie, insertion, confiance • Étapes : entrée → contrat → suivi → sortie.</p>
+        </section>
+
+        ${sectionTitle('Objectifs & contexte','b-vert')}
+        ${twoCols(
+          textarea('pacea:obj','Objectifs du parcours','Autonomie, insertion durable, confiance…'),
+          textarea('pacea:public','Public / Situation initiale','Profil, besoins prioritaires, contexte social…')
+        )}
+
+        ${sectionTitle('Contractualisation & suivi','b-bleu')}
+        ${threeCols(
+          inputText('pacea:date_entree','Date d’entrée'),
+          inputText('pacea:modalite','Modalité de contact','Présentiel / Distanciel / Téléphone'),
+          inputText('pacea:rythme','Rythme de suivi','Ex: 1 RDV / mois')
+        )}
+        ${twoCols(
+          textarea('pacea:plan','Plan d’action','Actions, acteurs, échéances…'),
+          textarea('pacea:indicateurs','Indicateurs de réussite','Progression autonomie, confiance, assiduité…')
+        )}
+
+        ${sectionTitle('Synthèse / points d’attention','b-rose')}
+        ${textarea('pacea:synthese','Bilan et points d’attention','Ce qui marche / à ajuster / relais à activer…')}
+
+        ${actionsFooter(id)}
+      `;
+    }
+
+    function renderCEJ(){
+      const id = 'cej';
+      return `
+        <section class="card">
+          <h2>CEJ – Contrat d’Engagement Jeune (accompagnement intensif)</h2>
+          <p class="hint">Engagement réciproque – diagnostic → plan d’action → accompagnement → bilan.</p>
+        </section>
+
+        ${sectionTitle('Engagements','b-bleu')}
+        <div class="card">
+          ${checkbox('cej:eng_jeune','Jeune : assiduité, participation active, respect du cadre')}
+          <br/>
+          ${checkbox('cej:eng_ml','Mission Locale : disponibilité, appui méthodologique, orientation “sans couture”')}
+        </div>
+
+        ${sectionTitle('Diagnostic & plan','b-vert')}
+        ${twoCols(
+          textarea('cej:diag','Diagnostic partagé','Besoins, freins, ressources, priorités…'),
+          textarea('cej:plan','Plan d’action','Formations, ateliers, immersions, accompagnements spécialisés…')
+        )}
+
+        ${sectionTitle('Suivi & indicateurs','b-orange')}
+        ${threeCols(
+          inputText('cej:rythme','Rythme d’accompagnement','Ex: 2 RDV / mois'),
+          inputText('cej:assiduite','Assiduité (%)',''),
+          inputText('cej:progression','Progression perçue (1–5)','')
+        )}
+        ${textarea('cej:observations','Observations / ajustements','Relances, ajustements, alertes…')}
+
+        ${actionsFooter(id)}
+      `;
+    }
+
+    function renderCEP(){
+      const id = 'cep';
+      return `
+        <section class="card">
+          <h2>CEP 2.0 – Conseil en Évolution Professionnelle</h2>
+          <p class="hint">2 niveaux de service : 1) Accueil individualisé 2) Accompagnement personnalisé • Posture “Tenir Conseil”.</p>
+        </section>
+
+        ${sectionTitle('Niveau 1 – Accueil','b-orange')}
+        ${twoCols(
+          textarea('cep:accueil_demande','Demande initiale','Information, orientation, emploi, formation, santé, logement, mobilité…'),
+          textarea('cep:accueil_outils','Outils mobilisés','Infos droits, dispositifs, orientation interne/externe…')
+        )}
+
+        ${sectionTitle('Niveau 2 – Accompagnement','b-bleu')}
+        ${twoCols(
+          textarea('cep:diag','Diagnostic partagé','Vie pro/perso, santé mentale, mobilité, freins / leviers…'),
+          textarea('cep:plan','Plan d’action','Objectifs CT/MT, actions, acteurs, échéances…')
+        )}
+        ${threeCols(
+          inputText('cep:rythme','Rythme de suivi','≥ 1 RDV/mois'),
+          inputText('cep:suivi_outils','Traçabilité','Tableau de bord CEP 2.0 / PAVAMI…'),
+          inputText('cep:eval','Évaluation qualitative','Autonomie, confiance, mobilité (1–5)')
+        )}
+
+        ${sectionTitle('Sortie / droit au retour','b-rose')}
+        ${twoCols(
+          textarea('cep:bilan','Bilan de parcours','Atteinte objectifs, progression qualitative…'),
+          textarea('cep:relais','Relais / perspectives','Emploi, formation, santé, mobilité, engagement…')
+        )}
+
+        ${actionsFooter(id)}
+      `;
+    }
+
+    function renderPosture(){
+      const id = 'posture';
+      return `
+        <section class="card">
+          <h2>Posture professionnelle – “Tenir Conseil”</h2>
+          <p class="hint">Penser et décider <b>avec</b>, non <b>pour</b> : neutralité, délibération, alliance, co-analyse, temporalité adaptée.</p>
+        </section>
+
+        ${sectionTitle('Auto-évaluation (1–5)','b-bleu')}
+        ${threeCols(
+          inputText('posture:neutralite','Neutralité bienveillante (1–5)',''),
+          inputText('posture:deliberation','Posture délibérative (1–5)',''),
+          inputText('posture:alliance','Alliance éthique (1–5)','')
+        )}
+        ${twoCols(
+          inputText('posture:coanalyse','Co-analyse (1–5)',''),
+          inputText('posture:temps','Temporalité adaptée (1–5)','')
+        )}
+
+        ${sectionTitle('Notes / pistes de progression','b-vert')}
+        ${textarea('posture:notes','Observations et ajustements','Formulations à privilégier, pièges à éviter, feed-back…')}
+
+        ${actionsFooter(id)}
+      `;
+    }
+
+    function renderEntretien(){
+      const id = 'entretien';
+      return `
+        <section class="card">
+          <h2>Guide d’entretien structuré – Tenir Conseil</h2>
+          <p class="hint">5 étapes : Accueil & cadre • Exploration • Analyse partagée • Co-définition du projet • Synthèse & projection.</p>
+        </section>
+
+        ${sectionTitle('Étapes & questions-clés','b-bleu')}
+        ${textarea('entretien:accueil','1) Accueil & cadre – objectifs / cadre / alliance','')}
+        ${textarea('entretien:exploration','2) Exploration du vécu – besoins / situations / attentes','')}
+        ${textarea('entretien:analyse','3) Analyse partagée – freins / leviers / hypothèses d’action','')}
+        ${textarea('entretien:codef','4) Co-définition du projet – priorités / planification','')}
+        ${textarea('entretien:synthese','5) Synthèse & projection – engagements / prochaines étapes','')}
+
+        ${actionsFooter(id)}
+      `;
+    }
+
+    function renderAPS(){
+      const id = 'aps';
+      return `
+        <section class="card">
+          <h2>Grille APS – Analyse Partagée de Situation</h2>
+          <p class="hint">5 colonnes : Projet & sens • Compétences & ressources • Freins & vulnérabilités • Environnement & réseau • Mobilité & territoire.</p>
+        </section>
+
+        <div class="card">
+          <div class="grid cols-3">
+            ${textarea('aps:projet','🎯 Projet & sens','')}
+            ${textarea('aps:competences','🧩 Compétences & ressources','')}
+            ${textarea('aps:freins','⚠️ Freins & vulnérabilités','')}
+          </div>
+          <div class="grid cols-2" style="margin-top:1rem">
+            ${textarea('aps:env','🌍 Environnement & réseau','')}
+            ${textarea('aps:mob','🚗 Mobilité & territoire','')}
+          </div>
+        </div>
+
+        ${sectionTitle('🪶 Synthèse partagée','b-orange')}
+        ${threeCols(
+          textarea('aps:forces','3 forces',''),
+          textarea('aps:besoins','3 besoins',''),
+          textarea('aps:pistes','3 pistes d’action','')
+        )}
+
+        ${actionsFooter(id)}
+      `;
+    }
+
+    function renderAlliance(){
+      const id = 'alliance';
+      return `
+        <section class="card">
+          <h2>Carte d’alliance de travail – CEP 2.0</h2>
+          <p class="hint">Contractualiser l’alliance : objectifs, rôles, moyens, prochaine étape, évaluation.</p>
+        </section>
+
+        ${twoCols(
+          textarea('alliance:objectif','Objectif commun',''),
+          textarea('alliance:moyens','Moyens mobilisés / partenaires','')
+        )}
+        ${twoCols(
+          textarea('alliance:jeune','Engagement du jeune',''),
+          textarea('alliance:conseiller','Engagement du conseiller','')
+        )}
+        ${threeCols(
+          inputText('alliance:prochaine','Prochaine étape (date / action)',''),
+          inputText('alliance:evaluation','Modalité d’évaluation',''),
+          inputText('alliance:signature','Signature (nom / date)','')
+        )}
+
+        ${actionsFooter(id)}
+      `;
+    }
+
+    function renderSynthese(){
+      const id = 'synthese';
+      return `
+        <section class="card">
+          <h2>Synthèse CEP 2.0 – Bilan & projection</h2>
+          <p class="hint">Diagnostic (APS), objectifs, plan d’action, évaluation qualitative, droit au retour.</p>
+        </section>
+
+        ${twoCols(
+          textarea('synthese:diag','Diagnostic partagé (5 points APS)',''),
+          textarea('synthese:obj','Objectifs CT / MT','')
+        )}
+        ${sectionTitle('Plan d’action','b-bleu')}
+        ${threeCols(
+          textarea('synthese:action1','Action / acteur / échéance',''),
+          textarea('synthese:action2','Action / acteur / échéance',''),
+          textarea('synthese:action3','Action / acteur / échéance','')
+        )}
+
+        ${sectionTitle('Évaluation qualitative (1–5)','b-vert')}
+        ${threeCols(
+          inputText('synthese:auto','Autonomie (1–5)',''),
+          inputText('synthese:conf','Confiance (1–5)',''),
+          inputText('synthese:mob','Mobilité (1–5)','')
+        )}
+        ${twoCols(
+          textarea('synthese:retour','Droit au retour (modalités)',''),
+          textarea('synthese:notes','Observations complémentaires','')
+        )}
+
+        ${actionsFooter(id)}
+      `;
+    }
+
+    /* ========= Shell (onglets / routing) ========= */
+    const tabs = document.getElementById('tabs');
+    const view = document.getElementById('view');
+    let current = localStorage.getItem('mlpb_repo_current') || 'pacea';
+
+    function mountTabs(){
+      tabs.innerHTML = PAGES.map(p => `
+        <button class="tab ${current===p.id?'active':''}" onclick="go('${p.id}')">
+          ${p.label}
+        </button>
+      `).join('');
+    }
+    function go(id){
+      current = id; localStorage.setItem('mlpb_repo_current', id);
+      mountTabs();
+      const page = PAGES.find(p=>p.id===id);
+      view.innerHTML = page.render();
+    }
+
+    /* ========= Actions globales ========= */
+    function resetCurrent(){
+      if(!confirm('Réinitialiser les champs de cette fiche ?')) return;
+      state[current] = {}; saveState(); go(current);
+    }
+    function saveAll(){
+      saveState(); alert('Données sauvegardées dans votre navigateur.');
+    }
+    function exportCurrent(id){
+      const payload = JSON.stringify({[id]: state[id]||{}}, null, 2);
+      download(`mlpb_${id}_${Date.now()}.json`, payload);
+    }
+    function exportAll(){
+      const payload = JSON.stringify(state, null, 2);
+      download(`mlpb_repo_${Date.now()}.json`, payload);
+    }
+    function download(filename, text){
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(new Blob([text], {type:'application/json'}));
+      a.download = filename; a.click();
+      URL.revokeObjectURL(a.href);
+    }
+
+    /* ========= Boot ========= */
+    mountTabs(); go(current);
+  </script>
+</body>
+</html>
